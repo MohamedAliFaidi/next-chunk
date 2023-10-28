@@ -1,11 +1,13 @@
-"use client"
-import dynamic from "next/dynamic";
+"use client";
+import { useCallback } from "react";
 
-const StarRatings = dynamic(() => import("react-star-ratings"), {
-  ssr: false,
-});
+import {Rating} from "react-rating"
+
 const Filters = () => {
+
   let queryParams;
+
+
 
   function checkHandler(checkBoxType, checkBoxValue) {
     if (typeof window !== "undefined") {
@@ -137,15 +139,8 @@ const Filters = () => {
                   defaultChecked={checkHandler("ratings", `${rating}`)}
                 />
                 <span className="ml-2 text-gray-500">
-                  {" "}
-                  <StarRatings
-                    rating={5}
-                    starRatedColor="#ffb829"
-                    numberOfStars={5}
-                    starDimension="20px"
-                    starSpacing="2px"
-                    name="rating"
-                  />{" "}
+                 
+                 
                 </span>
               </label>
             ))}

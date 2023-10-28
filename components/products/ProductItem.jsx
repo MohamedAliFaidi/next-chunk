@@ -1,11 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const StarRatings = dynamic(() => import("react-star-ratings"), {
-  ssr: false,
-});
-import Rate from "../layout/Rate";
+
 const ProductItem = ({ product }) => {
   return (
     <article className="border border-gray-200 overflow-hidden bg-white shadow-sm rounded mb-5">
@@ -41,15 +37,7 @@ const ProductItem = ({ product }) => {
             <div className="flex flex-wrap items-center space-x-2 mb-2">
               <div className="ratings">
                 <div className="my-1">
-                   {/* <Rate /> */}
-                  {/* <StarRatings
-                    rating={product?.ratings}
-                    starRatedColor="#ffb829"
-                    numberOfStars={product?.ratings}
-                    starDimension="18px"
-                    starSpacing="1px"
-                    name="rating"
-                  /> */}
+          
                 </div>
               </div>
               <b className="text-gray-300">•</b>
