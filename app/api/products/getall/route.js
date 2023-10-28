@@ -1,11 +1,25 @@
-import { getAll } from "../../../../backend/controllers/productController";
 import { NextResponse } from "next/server";
+import { cache } from 'react'
+ 
+ const revalidate = 3600 // revalidate the data at most every hour
+ 
+ const getPoducts = cache(async (id) => {
+    const data = await fetch(`http://localhost:4000/api/products/getall`, {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const products = await data.json();
+    return products;
+  }, revalidate)
 export async function GET() {
   try {
-    
-    const data = await getAll();
-    const response =  NextResponse.json(data, { status: 200 });
-    response.headers.set("cache-control", "no-store")
+    const products = await getPoducts();
+    console.log(products);
+  
+    const response =  NextResponse.json(products, { status: 200 });
     return response;
   } catch (error) {
     console.log(error);

@@ -1,6 +1,8 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from "../components/layout/Header"
+export const runtime = 'edge' // 'nodejs' (default) | 'edge'
+
 
 const inter = Inter({ subsets: ['latin'] })
 

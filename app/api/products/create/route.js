@@ -1,15 +1,20 @@
-
-import { newProduct } from "../../../../backend/controllers/productController";
 import { NextResponse } from "next/server";
-
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    console.log(body);
-    
-    const data = await newProduct(body);
-    const response = NextResponse.json(data, { status: 201 });
+    const data = await fetch(`http://localhost:4000/api/products/create`, {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const product = await data.json();
+
+    const response = NextResponse.json(product, { status: 201 });
     return response;
   } catch (error) {
     console.log(error);
@@ -17,6 +22,6 @@ export async function POST(req) {
       { message: error.message },
       { status: 500 }
     );
-    return response;  
+    return response;
   }
 }
