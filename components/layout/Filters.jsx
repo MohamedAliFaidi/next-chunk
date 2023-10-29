@@ -1,13 +1,9 @@
 "use client";
-import { useCallback } from "react";
 
-import {Rating} from "react-rating"
+import StarRatings from "react-star-ratings";
 
 const Filters = () => {
-
   let queryParams;
-
-
 
   function checkHandler(checkBoxType, checkBoxValue) {
     if (typeof window !== "undefined") {
@@ -139,8 +135,14 @@ const Filters = () => {
                   defaultChecked={checkHandler("ratings", `${rating}`)}
                 />
                 <span className="ml-2 text-gray-500">
-                 
-                 
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="#ffb829"
+                    numberOfStars={5}
+                    starDimension="18px"
+                    starSpacing="1px"
+                    name="rating"
+                  />
                 </span>
               </label>
             ))}

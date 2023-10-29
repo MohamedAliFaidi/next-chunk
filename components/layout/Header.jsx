@@ -15,6 +15,7 @@ const Header = () => {
                 height="40"
                 width="120"
                 alt="BuyItNow"
+                style={{ width: "auto", height: "auto" }}
               />
             </a>
           </div>

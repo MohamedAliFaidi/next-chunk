@@ -1,6 +1,9 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import StarRatings from "react-star-ratings";
+
+
 
 const ProductItem = ({ product }) => {
   return (
@@ -37,6 +40,15 @@ const ProductItem = ({ product }) => {
             <div className="flex flex-wrap items-center space-x-2 mb-2">
               <div className="ratings">
                 <div className="my-1">
+                  <StarRatings
+                    rating={product?.ratings}
+                    starRatedColor="#ffb829"
+                    numberOfStars={5}
+                    starDimension="18px"
+                    starSpacing="1px"
+                    name="rating"
+                  />
+                  
           
                 </div>
               </div>
