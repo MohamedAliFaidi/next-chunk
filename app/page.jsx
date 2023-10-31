@@ -4,22 +4,18 @@ export const runtime = "edge";
 import Client from "../components/ClientWrap";
 
 import queryString from "query-string";
+import { createIntervalRegex } from "../helper/helper";
 
 const getProducts = async (params) => {
-  // const urlParams = {
-  //   keyword: params.keyword,
-  // };
-
   const urlParams = {
     keyword: params.keyword,
     page: params.page,
     category: params.category,
-    "price[gte]": params.min,
-    "price[lte]": params.max,
-    "ratings[gte]": params.ratings,
+    "price[$gte]": params.min,
+    "price[$lte]": params.max,
+    ratings: params.ratings,
   };
   const query = queryString.stringify(urlParams);
-
 
   const data = await fetch(`${process.env.BACKEND_URL}/api/products?${query}`, {
     cache: "no-store",
@@ -35,15 +31,13 @@ const getProducts = async (params) => {
   return products;
 };
 export default async function Home({ searchParams }) {
-
-
-const products = await getProducts(searchParams);
+  const products = await getProducts(searchParams);
 
   return (
     <>
       {" "}
       <Client>
-        <ListProducts products={products}  />{" "}
+        <ListProducts products={products} />{" "}
       </Client>
     </>
   );
