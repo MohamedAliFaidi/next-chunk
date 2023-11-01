@@ -7,16 +7,10 @@ import Pagination from "react-js-pagination";
 
 
 
-const CustomPagination = ({ resPerPage, productsCount,filteredProductsCount}) => {
+const CustomPagination = ({ resPerPage,filteredProductsCount}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  console.log(resPerPage, productsCount, filteredProductsCount
-    );
-
-  const totalItemsCount = searchParams.get("keyword")
-    ? filteredProductsCount
-    : productsCount;
 
 
   let page = searchParams.get("page") || 1;

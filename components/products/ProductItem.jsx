@@ -2,10 +2,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import StarRatings from "react-star-ratings";
-
-
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 const ProductItem = ({ product }) => {
+  const { addItemToCart } = useContext(CartContext);
+
+  const addToCartHandler = () => {
+    addItemToCart({
+      product: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0].url,
+      stock: product.stock,
+      seller: product.seller,
+    });
+  };
+
   return (
     <article className="border border-gray-200 overflow-hidden bg-white shadow-sm rounded mb-5">
       <div className="flex flex-col md:flex-row">
@@ -19,9 +32,7 @@ const ProductItem = ({ product }) => {
           >
             <Image
               src={
-                !product?.images[0]
-                  ? "/image_1024.png"
-                  : product?.images[0].url
+                !product?.images[0] ? "/image_1024.png" : product?.images[0].url
               }
               alt="product anme"
               height="240"
@@ -48,8 +59,6 @@ const ProductItem = ({ product }) => {
                     starSpacing="1px"
                     name="rating"
                   />
-                  
-          
                 </div>
               </div>
               <b className="text-gray-300">•</b>
@@ -67,9 +76,11 @@ const ProductItem = ({ product }) => {
             </span>
 
             <p className="text-green-500">Free Shipping</p>
-            
+
             <div className="my-3">
-              <a className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer">
+              <a className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer"
+               onClick={addToCartHandler}
+              >
                 {" "}
                 Add to Cart{" "}
               </a>

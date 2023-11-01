@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const data = await fetch(`http://localhost:4000/api/products/create`, {
+    const data = await fetch(`${process.env.BACKEND_URL}/api/products/create`, {
       method: "POST",
       cache: "no-store",
       headers: {

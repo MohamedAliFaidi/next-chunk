@@ -4,7 +4,6 @@ export const runtime = "edge";
 import Client from "../components/ClientWrap";
 
 import queryString from "query-string";
-import { createIntervalRegex } from "../helper/helper";
 
 const getProducts = async (params) => {
   const urlParams = {

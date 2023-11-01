@@ -1,20 +1,32 @@
 "use client";
-
-import React, { useRef } from "react";
+import { useRef, useContext } from "react";
 import StarRatings from "react-star-ratings";
 import BreadCrumbs from "../layout/BreadCrumbs";
+import { CartContext } from "../../context/CartContext";
+import Client from "../ClientWrap";
 
 const ProductDetails = ({ data }) => {
+  const { addItemToCart } = useContext(CartContext);
+  
   const imgRef = useRef(null);
- const {product} = data;
-
-
+  const { product } = data;
 
   const setImgPreview = (url) => {
     imgRef.current.src = url;
   };
 
   const inStock = product?.stock >= 1;
+
+  const addToCartHandler = () => {
+    addItemToCart({
+      product: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0].url,
+      stock: product.stock,
+      seller: product.seller,
+    });
+  };
 
   const breadCrumbs = [
     { name: "Home", url: "/" },
@@ -45,8 +57,9 @@ const ProductDetails = ({ data }) => {
                 />
               </div>
               <div className="space-x-2 overflow-auto text-center whitespace-nowrap">
-                {product?.images?.map((img) => (
+                {product?.images?.map((img, i) => (
                   <a
+                    key={i}
                     className="inline-block border border-gray-200 p-1 rounded-md hover:border-blue-500 cursor-pointer"
                     onClick={() => setImgPreview(img?.url)}
                   >
@@ -66,14 +79,16 @@ const ProductDetails = ({ data }) => {
 
               <div className="flex flex-wrap items-center space-x-2 mb-2">
                 <div className="ratings">
-                  <StarRatings
-                    rating={product?.ratings}
-                    starRatedColor="#ffb829"
-                    numberOfStars={5}
-                    starDimension="20px"
-                    starSpacing="2px"
-                    name="rating"
-                  />
+                  <Client>
+                    <StarRatings
+                      rating={product?.ratings}
+                      starRatedColor="#ffb829"
+                      numberOfStars={5}
+                      starDimension="20px"
+                      starSpacing="2px"
+                      name="rating"
+                    />
+                  </Client>
                 </div>
                 <span className="text-yellow-500">{product?.ratings}</span>
 
@@ -94,7 +109,11 @@ const ProductDetails = ({ data }) => {
               <p className="mb-4 text-gray-500">{product?.description}</p>
 
               <div className="flex flex-wrap gap-2 mb-5">
-                <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                <button
+                  onClick={addToCartHandler}
+                  className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                  disabled={!inStock}
+                >
                   <i className="fa fa-shopping-cart mr-2"></i>
                   Add to cart
                 </button>

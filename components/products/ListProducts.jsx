@@ -6,7 +6,6 @@ import CustomPagination from "../layout/CustomPagination";
 import ProductItem from "./ProductItem";
 
 const ListProducts = (data) => {
-  console.log("data", data);  
   return (
     <section className="py-12">
       <div className="container max-w-screen-xl mx-auto px-4">
@@ -23,9 +22,7 @@ const ListProducts = (data) => {
         </div>
         <CustomPagination
           resPerPage={data?.products.resPerPage}
-          productsCount={data?.products?.products.length}
-          filteredProductsCount={data?.products.filteredProductsCount
-          }
+          filteredProductsCount={data?.products.filteredProductsCount}
         />{" "}
       </div>
     </section>
