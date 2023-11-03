@@ -1,8 +1,17 @@
-"use client"
+"use client";
 
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 const Sidebar = () => {
+  const logoutHandler = () => {
+    signOut()
+      .then(() => {
+        window.location.href = "/login";
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <aside className="md:w-1/3 lg:w-1/4 px-4">
       <ul className="sidebar">
@@ -89,9 +98,12 @@ const Sidebar = () => {
 
         <li>
           {" "}
-          <a className="block px-3 py-2 text-red-800 hover:bg-red-100 hover:text-white-500 rounded-md cursor-pointer">
+          <button
+            onClick={logoutHandler}
+            className="block px-3 py-2 text-red-800 hover:bg-red-100 hover:text-white-500 rounded-md cursor-pointer"
+          >
             Logout
-          </a>
+          </button>
         </li>
       </ul>
     </aside>

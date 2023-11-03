@@ -4,21 +4,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import Pagination from "react-js-pagination";
 
-
-
-
-const CustomPagination = ({ resPerPage,filteredProductsCount}) => {
+const CustomPagination = ({ resPerPage, filteredProductsCount }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-
 
   let page = searchParams.get("page") || 1;
   page = Number(page);
 
-
   const handlePageChange = (currentPage) => {
-      let queryParams;
+    let queryParams;
     if (typeof window !== "undefined") {
       queryParams = new URLSearchParams(window.location.search);
 
@@ -27,11 +21,8 @@ const CustomPagination = ({ resPerPage,filteredProductsCount}) => {
       } else {
         queryParams.append("page", currentPage);
       }
-      
-      console.log("queryParams", queryParams);
 
       const path = window.location.pathname + "?" + queryParams.toString();
-      console.log("path", path);
       router.push(path);
     }
   };

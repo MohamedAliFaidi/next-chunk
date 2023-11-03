@@ -79,7 +79,7 @@ const Header = () => {
             )}
           </div>
 
-          <div className="lg:hidden ml-2">
+          <div className=" ml-2">
             <button
               type="button"
               className="bg-white p-3 inline-flex items-center rounded-md text-black hover:bg-gray-200 hover:text-gray-800 border border-transparent"

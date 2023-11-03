@@ -8,7 +8,7 @@ import dbConnect from "../../../../helper/db";
 
 import bcrypt from "bcryptjs";
 
- async function auth(req, res) {
+async function auth(req, res) {
   return await nextAuth(req, res, {
     session: {
       strategy: "jwt",
@@ -34,6 +34,21 @@ import bcrypt from "bcryptjs";
         },
       }),
     ],
+    callbacks: {
+      jwt: async ({ token, user }) => {
+        user && (token.user = user);
+        return token;
+      },
+      session: async ({ session, token }) => {
+
+        session.user = token.user;
+        // delete password from session
+        delete session?.user?.password;
+
+        return session;
+      },
+    
+    },
     pages: {
       signIn: "/login",
     },
@@ -41,5 +56,4 @@ import bcrypt from "bcryptjs";
   });
 }
 
-export { auth as GET, auth as POST }
-
+export { auth as GET, auth as POST };

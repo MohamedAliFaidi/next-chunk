@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = async ({ name, email, password }) => {
     try {
-      const  data = await fetch(
+      const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`,
         {
           method: "POST",
@@ -26,9 +26,6 @@ export const AuthProvider = ({ children }) => {
       ).then(async (res) => {
         return await res.json();
       });
-
-      console.log(data);
-
 
       if (data?.user) {
         router.push("/");

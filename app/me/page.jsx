@@ -1,5 +1,14 @@
 import Profile from "../../components/auth/Profile"
-function page() {
+
+import { getToken } from "next-auth/jwt"
+
+import { NextRequest } from "next/server"
+
+
+
+async function page() {
+
+
   return (
     <div>
         <Profile />
