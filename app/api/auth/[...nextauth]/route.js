@@ -18,9 +18,7 @@ import bcrypt from "bcryptjs";
         async authorize(credentials, req) {
           await dbConnect();
           const { email, password } = credentials;
-          console.log("email", email);
           const user = await User.findOne({ email }).select("+password");
-          console.log("user", user);
 
           if (!user) {
             throw new Error("User not found");
