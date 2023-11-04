@@ -75,10 +75,9 @@ const ProductItem = ({ product }) => {
               ${product?.price}
             </span>
 
-            <p className="text-green-500">Free Shipping</p>
 
             <div className="my-3">
-              <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer"
+              <button className="px-4 py-2 inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700 cursor-pointer"
                onClick={addToCartHandler}
               >
                 {" "}

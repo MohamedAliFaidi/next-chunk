@@ -29,7 +29,7 @@ const Header = () => {
               <Image
                 src="/logo.png"
                 height="40"
-                width="120"
+                width="40"
                 alt="BuyItNow"
                 style={{ width: "auto", height: "auto" }}
               />
@@ -79,7 +79,7 @@ const Header = () => {
             )}
           </div>
 
-          <div className=" ml-2">
+          {/* <div className=" ml-2">
             <button
               type="button"
               className="bg-white p-3 inline-flex items-center rounded-md text-black hover:bg-gray-200 hover:text-gray-800 border border-transparent"
@@ -87,7 +87,7 @@ const Header = () => {
               <span className="sr-only">Open menu</span>
               <i className="fa fa-bars fa-lg"></i>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

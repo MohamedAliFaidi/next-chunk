@@ -39,7 +39,7 @@ const Search = (params) => {
       />
       <button
         type="button"
-        className="px-4 py-2 inline-block text-white border border-transparent bg-blue-600 rounded-md hover:bg-blue-700"
+        className="px-4 py-2 inline-block text-white border border-transparent bg-orange-500 rounded-md hover:bg-orange-700"
         onClick={submitHandler}
 
       >

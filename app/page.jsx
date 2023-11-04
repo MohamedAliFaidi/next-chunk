@@ -4,6 +4,7 @@ export const runtime = "edge";
 import Client from "../components/ClientWrap";
 
 import queryString from "query-string";
+import{CarouselCustomArrows} from "../components/layout/carousel"
 
 const getProducts = async (params) => {
   const urlParams = {
@@ -31,11 +32,14 @@ const getProducts = async (params) => {
 };
 export default async function Home({ searchParams }) {
   const products = await getProducts(searchParams);
-
   return (
     <>
       {" "}
       <Client>
+        <div className="flex flex-row items-center justify-center  h-96 min-w-full ">
+        <CarouselCustomArrows/>  
+
+        </div>
         <ListProducts products={products} />{" "}
       </Client>
     </>

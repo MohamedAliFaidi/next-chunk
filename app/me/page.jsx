@@ -1,19 +1,12 @@
-import Profile from "../../components/auth/Profile"
-
-import { getToken } from "next-auth/jwt"
-
-import { NextRequest } from "next/server"
-
-
+import Profile from "../../components/auth/Profile";
 
 async function page() {
 
-
   return (
-    <div>
-        <Profile />
+    <div> 
+      <Profile />
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

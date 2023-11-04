@@ -100,7 +100,7 @@ const Filters = () => {
 
               <div className="mb-4">
                 <button
-                  className="px-1 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                  className="px-1 py-2 text-center w-full inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700"
                   onClick={handleButtonClick}
                 >
                   Go
