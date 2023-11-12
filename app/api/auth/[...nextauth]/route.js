@@ -51,6 +51,7 @@ async function auth(req, res) {
     },
     pages: {
       signIn: "/login",
+      
     },
     secret: process.env.NEXT_AUTH_SECRET,
   });

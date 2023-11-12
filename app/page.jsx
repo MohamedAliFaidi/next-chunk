@@ -1,47 +1,40 @@
-import ListProducts from "../components/products/ListProducts";
 export const runtime = "edge";
 
+import HomeList from "../components/products/HomeList";
 import Client from "../components/ClientWrap";
-
-import queryString from "query-string";
-import{CarouselCustomArrows} from "../components/layout/carousel"
-
-const getProducts = async (params) => {
-  const urlParams = {
-    keyword: params.keyword,
-    page: params.page,
-    category: params.category,
-    "price[$gte]": params.min,
-    "price[$lte]": params.max,
-    ratings: params.ratings,
+import { Slides } from "../components/layout/Carousel";
+async function page() {
+  const getProducts = async () => {
+    const data = await fetch(`${process.env.BACKEND_URL}/api/products`, {
+      cache: "no-store",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        resperpage: 5,
+      },
+    });
+    if (!data.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const products = await data.json();
+    return products;
   };
-  const query = queryString.stringify(urlParams);
 
-  const data = await fetch(`${process.env.BACKEND_URL}/api/products?${query}`, {
-    cache: "no-store",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!data.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  const products = await data.json();
-  return products;
-};
-export default async function Home({ searchParams }) {
-  const products = await getProducts(searchParams);
+  const data = await getProducts();
   return (
-    <>
-      {" "}
+    <div>
       <Client>
-        <div className="flex flex-row items-center justify-center  h-96 min-w-full ">
-        <CarouselCustomArrows/>  
-
-        </div>
-        <ListProducts products={products} />{" "}
+        <center>
+          <div className="flex justify-center items-center w-4/5 h-2/6">
+            <Slides />
+          </div>
+        </center>
       </Client>
-    </>
+      <div className="flex justify-center items-center  mb">
+        <HomeList products={data.products} />
+      </div>
+    </div>
   );
 }
+
+export default page;

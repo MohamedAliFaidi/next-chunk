@@ -5,7 +5,6 @@ import Address from "../../../../helper/adress.model";
 export async function POST(req) {
   try {
     const body = await req.json();
-    console;log(body);
      dbConnet();
     const address = await Address.create(body);
     return NextResponse.json({ address });

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createContext, useState } from "react";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
@@ -36,22 +37,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  
   const addNewAddress = async (address) => {
     try {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/api/address`,
-        address
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(address),
+        }
       );
 
-      if (data) {
+      if (data.ok) {
         router.push("/me");
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
       setError(error?.response?.data?.message);
     }
   };
-
 
   const clearErrors = () => {
     setError(null);

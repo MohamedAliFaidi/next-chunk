@@ -4,6 +4,8 @@ import Header from "../components/layout/Header";
 
 import { GlobalProvider } from "./GlobalProvider";
 
+import Footer from "../components/layout/Footer";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -22,8 +24,10 @@ export default function RootLayout({ children }) {
         <GlobalProvider>
           <Header />
           {children}
+          <Footer />
         </GlobalProvider>
         <ToastContainer position="bottom-right" />
+        
       </body>
     </html>
   );

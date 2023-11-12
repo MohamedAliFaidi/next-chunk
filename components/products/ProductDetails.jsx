@@ -60,7 +60,7 @@ const ProductDetails = ({ data }) => {
                 {product?.images?.map((img, i) => (
                   <a
                     key={i}
-                    className="inline-block border border-gray-200 p-1 rounded-md hover:border-blue-500 cursor-pointer"
+                    className="inline-block border border-gray-200 p-1 rounded-md hover:border-orange-500 cursor-pointer"
                     onClick={() => setImgPreview(img?.url)}
                   >
                     <img
@@ -111,7 +111,7 @@ const ProductDetails = ({ data }) => {
               <div className="flex flex-wrap gap-2 mb-5">
                 <button
                   onClick={addToCartHandler}
-                  className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700"
                   disabled={!inStock}
                 >
                   <i className="fa fa-shopping-cart mr-2"></i>
