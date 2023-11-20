@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
+
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useRouter } from "next/navigation";
@@ -30,27 +29,35 @@ const ProductCard = ({ product }) => {
 
   return (
     <>
-      <Card className="mt-6 w-96">
-        <CardHeader color="blue-gray" className="relative h-56">
-          <img
-            src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-            alt="card-image"
-          />
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h5" color="blue-gray" className="mb-2">
-            UI/UX Review Check
-          </Typography>
-          <Typography>
-            The place is close to Barceloneta Beach and bus stop just 2 min by
-            walk and near to &quot;Naviglio&quot; where you can enjoy the main
-            night life in Barcelona.
-          </Typography>
-        </CardBody>
-        <CardFooter className="pt-0">
-          <Button>Read More</Button>
-        </CardFooter>
-      </Card>
+   <Card className="mt-6 w-full sm:w-96">
+  <CardHeader color="blue-gray" className="relative h-56">
+    <img
+      alt="card-image"
+      className="absolute h-full w-full object-cover"
+      src={product.images[0].url}
+    />
+  </CardHeader>
+  <CardBody>
+    <Typography
+      onClick={() => router.push(`/product/${product._id}`)}
+      variant="h5"
+      color="blue-gray"
+      className="mb-2"
+    >
+      {product.name}
+    </Typography>
+
+    <Typography className="line-clamp-3 overflow-hidden">
+      {" "}
+      {product.description.length > 100
+        ? `${product.description.substr(0, 100)}...`
+        : product.description}
+    </Typography>
+  </CardBody>
+  <CardFooter>
+    <Button className="bg-orange-700 text-black" onClick={addToCartHandler}>Add To Cart</Button>
+  </CardFooter>
+</Card>
     </>
   );
 };
