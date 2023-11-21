@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data.ok) {
+        toast.success("address addedd successfully")
         router.push("/me");
       } else {
         toast.error(data.message);

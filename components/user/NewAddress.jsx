@@ -1,13 +1,12 @@
 "use client";
 
-import  { useState, useContext } from "react";
-
+import { useState, useContext } from "react";
 
 import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 
 const NewAddress = () => {
-  const { error, addNewAddress, clearErrors } = useContext(AuthContext);
+  const { error, addNewAddress, clearErrors,user } = useContext(AuthContext);
 
   const countriesList = Object.values(countries);
 
@@ -22,6 +21,7 @@ const NewAddress = () => {
     e.preventDefault();
 
     const newAddress = {
+      userId: user?.email,
       street,
       city,
       state,
@@ -118,7 +118,7 @@ const NewAddress = () => {
 
           <button
             type="submit"
-            className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+            className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700"
           >
             Add
           </button>
