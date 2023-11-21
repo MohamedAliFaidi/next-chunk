@@ -2,22 +2,22 @@ export const runtime = "edge";
 
 import { Slides } from "../components/layout/Carousel";
 import ProductCard from "../components/products/ProductCard";
+const getProducts = async () => {
+  const data = await fetch(`${process.env.BACKEND_URL}/api/products`, {
+    cache: "no-store",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      resperpage: 3,
+    },
+  });
+  if (!data.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const products = await data.json();
+  return products;
+};
 async function page() {
-  const getProducts = async () => {
-    const data = await fetch(`${process.env.BACKEND_URL}/api/products`, {
-      cache: "no-store",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        resperpage: 3,
-      },
-    });
-    if (!data.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    const products = await data.json();
-    return products;
-  };
 
   const data = await getProducts();
   return (
