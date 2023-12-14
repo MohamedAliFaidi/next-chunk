@@ -6,19 +6,18 @@ import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { AuthContext } from "../../context/AuthContext";
-import { useSession } from "next-auth/react";
 
 const Header = () => {
   const { user, setUser } = useContext(AuthContext);
 
-  const { data } = useSession();
   const { cart } = useContext(CartContext);
 
-  useEffect(() => {
-    if (data) {
-      setUser(data?.user);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setUser(data?.user);
+  //   }
+  // }, [data]);  // const { data } = useSession();
+
 
   return (
     <header className="bg-white py-2 border-b">

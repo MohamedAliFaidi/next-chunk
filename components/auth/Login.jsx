@@ -1,46 +1,80 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import React, { useState, useCallback, useEffect,useContext } from "react";
 import { toast } from "react-toastify";
-import { useRouter, useSearchParams } from "next/navigation";
-import {parseCallbackUrl} from  "../../helper/helper"
+import AuthContext from "../../context/AuthContext";
+
+
+import { validatePasword, validateEmail } from "../../helper/validator";
 
 const Login = () => {
+  const { setUser } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  const router = useRouter();
-  const params = useSearchParams();
-  const callBackUrl = params.get("callbackUrl");
-
-  const submitHandler = async (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
 
-    const data = await signIn("credentials", {
-      email,
-      password,
-      callbackUrl: callBackUrl ? parseCallbackUrl(callBackUrl) : "/",
+    const data = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    }).then((res) => {
+      if (res?.error) {
+        toast.error(res?.error);
+      }
+      return res;
     });
-
-    console.log(data);
-
-    if (data?.error) {
-      toast.error(data?.error);
+    if(data.ok){
+      const user = await data.json();
+      setUser(user.data);
+      setPassword('')
+      toast.success("Login successful");
     }
 
-    if (data?.ok) {
-      router.push("/");
-    }
   };
+
+  const verifyAndSetEmail = useCallback(
+    (email) => {
+      if (!validateEmail(email)) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+      }
+      setEmail(email);
+    },
+    [setEmailError, setEmail]
+  );
+
+  const verifyAndSetPassword = useCallback(
+    (password) => {
+      if (!validatePasword(password)) {
+        setPasswordError(true);
+      } else {
+        setPasswordError(false);
+      }
+      setPassword(password);
+    },
+    [setPasswordError, setPassword]
+  );
+
+  useEffect(() => {
+    if (emailError || passwordError) setIsDisabled(true);
+    else setIsDisabled(false);
+  }, [passwordError, emailError]);
 
   return (
     <div
       style={{ maxWidth: "480px" }}
       className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
     >
-      <form onSubmit={submitHandler}>
+      <form onSubmit={loginUser}>
         <h2 className="mb-5 text-2xl font-semibold">Login</h2>
 
         <div className="mb-4">
@@ -50,10 +84,15 @@ const Login = () => {
             type="text"
             placeholder="Type your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => verifyAndSetEmail(e.target.value)}
             required
           />
         </div>
+        {emailError && (
+          <p className="text-red-500 text-sm mb-2">
+            Please enter a valid email address.
+          </p>
+        )}
 
         <div className="mb-4">
           <label className="block mb-1"> Password </label>
@@ -63,13 +102,19 @@ const Login = () => {
             placeholder="Type your password"
             minLength={6}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => verifyAndSetPassword(e.target.value)}
             required
           />
         </div>
+        {passwordError && (
+          <p className="text-red-500 text-sm mb-2">
+            Please enter a strong password.
+          </p>
+        )}
 
         <button
           type="submit"
+          disabled={isDisabled}
           className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700"
         >
           Login

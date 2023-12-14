@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import  { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+
+import {
+  validatePasword,
+  validateEmail,
+  validateUsername,
+} from "../../helper/validator";
 
 const Register = () => {
   const { error, registerUser, clearErrors } = useContext(AuthContext);
@@ -11,6 +17,10 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     if (error) {
@@ -24,6 +34,47 @@ const Register = () => {
 
     registerUser({ name, email, password });
   };
+
+  const verifyAndSetUsername = useCallback(
+    (username) => {
+      if (!validateUsername(username)) {
+        setUsernameError(true);
+      } else {
+        setUsernameError(false);
+      }
+      setName(username);
+    },
+    [setUsernameError, setName]
+  );
+
+  const verifyAndSetEmail = useCallback(
+    (email) => {
+      if (!validateEmail(email)) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+      }
+      setEmail(email);
+    },
+    [setEmailError, setEmail]
+  );
+
+  const verifyAndSetPassword = useCallback(
+    (password) => {
+      if (!validatePasword(password)) {
+        setPasswordError(true);
+      } else {
+        setPasswordError(false);
+      }
+      setPassword(password);
+    },
+    [setPasswordError, setPassword]
+  );
+
+  useEffect(() => {
+    if (usernameError || emailError || passwordError) setIsDisabled(true);
+    else setIsDisabled(false);
+  }, [passwordError, emailError, usernameError]);
 
   return (
     <div
@@ -40,10 +91,15 @@ const Register = () => {
             type="text"
             placeholder="Type your name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => verifyAndSetUsername(e.target.value)}
             required
           />
         </div>
+        {usernameError && (
+          <p className="text-red-500 text-xs italic">
+            Please enter a valid username. Username must be at least 4
+          </p>
+        )}
 
         <div className="mb-4">
           <label className="block mb-1"> Email </label>
@@ -52,10 +108,15 @@ const Register = () => {
             type="text"
             placeholder="Type your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => verifyAndSetEmail(e.target.value)}
             required
           />
         </div>
+        {emailError && (
+          <p className="text-red-500 text-xs italic">
+            Please enter a valid email.
+          </p>
+        )}
 
         <div className="mb-4">
           <label className="block mb-1"> Password </label>
@@ -65,13 +126,19 @@ const Register = () => {
             placeholder="Type your password"
             minLength={6}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => verifyAndSetPassword(e.target.value)}
             required
           />
         </div>
+        {passwordError && (
+          <p className="text-red-500 text-xs italic">
+            Please enter a strong password.
+          </p>
+        )}
 
         <button
           type="submit"
+          disabled={isDisabled}
           className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700"
         >
           Register

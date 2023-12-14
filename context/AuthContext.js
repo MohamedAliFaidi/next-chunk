@@ -27,9 +27,13 @@ export const AuthProvider = ({ children }) => {
       ).then(async (res) => {
         return await res.json();
       });
-
-      if (data?.user) {
-        router.push("/");
+      console.log(data);
+      if (data.message) {
+        setError(data.message);
+      } else {
+        if (data.data._id) {
+          setTimeout(() => toast.success("welcome " + data.data.name), 2000);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data.ok) {
-        toast.success("address addedd successfully")
+        toast.success("address addedd successfully");
         router.push("/me");
       } else {
         toast.error(data.message);
