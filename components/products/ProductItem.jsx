@@ -4,6 +4,7 @@ import Image from "next/image";
 import StarRatings from "react-star-ratings";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import Client from "../ClientWrap";
 
 const ProductItem = ({ product }) => {
   const { addItemToCart } = useContext(CartContext);
@@ -51,14 +52,16 @@ const ProductItem = ({ product }) => {
             <div className="flex flex-wrap items-center space-x-2 mb-2">
               <div className="ratings">
                 <div className="my-1">
-                  <StarRatings
-                    rating={product?.ratings}
-                    starRatedColor="#ffb829"
-                    numberOfStars={5}
-                    starDimension="18px"
-                    starSpacing="1px"
-                    name="rating"
-                  />
+                  <Client>
+                    <StarRatings
+                      rating={product?.ratings}
+                      starRatedColor="#ffb829"
+                      numberOfStars={5}
+                      starDimension="18px"
+                      starSpacing="1px"
+                      name="rating"
+                    />
+                  </Client>
                 </div>
               </div>
               <b className="text-gray-300">•</b>
@@ -75,10 +78,10 @@ const ProductItem = ({ product }) => {
               ${product?.price}
             </span>
 
-
             <div className="my-3">
-              <button className="px-4 py-2 inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700 cursor-pointer"
-               onClick={addToCartHandler}
+              <button
+                className="px-4 py-2 inline-block text-white bg-orange-500 border border-transparent rounded-md hover:bg-orange-700 cursor-pointer"
+                onClick={addToCartHandler}
               >
                 {" "}
                 Add to Cart{" "}

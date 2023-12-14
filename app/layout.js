@@ -21,12 +21,11 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <GlobalProvider>
           <Header />
-          {Header && (
-            <>
-              {children}
-              <Footer />
-            </>
-          )}
+
+          <>
+            {children}
+            <Footer />
+          </>
         </GlobalProvider>
         <ToastContainer position="bottom-right" />
       </body>

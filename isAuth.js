@@ -14,7 +14,6 @@ export async function middleware(req) {
       headers: { "Content-Type": "application/json" },
     }
   );
-  console.log(check.ok);
 
   if (!check.ok) {
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`);

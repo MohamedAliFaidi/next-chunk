@@ -4,7 +4,7 @@ import StarRatings from "react-star-ratings";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getPriceQueryParams } from "../../helper/helper";
-
+import Client from "../ClientWrap";
 const Filters = () => {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
@@ -197,14 +197,16 @@ const Filters = () => {
                     />
                     <span className="ml-2 text-gray-500">
                       {" "}
-                      <StarRatings
-                        rating={rating}
-                        starRatedColor="#ffb829"
-                        numberOfStars={5}
-                        starDimension="20px"
-                        starSpacing="2px"
-                        name="rating"
-                      />{" "}
+                      <Client>
+                        <StarRatings
+                          rating={rating}
+                          starRatedColor="#ffb829"
+                          numberOfStars={5}
+                          starDimension="20px"
+                          starSpacing="2px"
+                          name="rating"
+                        />{" "}
+                      </Client>
                     </span>
                   </label>
                 ))}

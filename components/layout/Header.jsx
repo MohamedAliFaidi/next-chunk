@@ -20,37 +20,43 @@ const Header = () => {
   // }, [data]);  // const { data } = useSession();
 
   return (
-    <header className="bg-white py-2 border-b">
+    <header className="bg-white py-2 border-b" style={{ height: "15vh" }}>
       <div className="container max-w-screen-xl mx-auto px-4">
-        <Client>
-          <div className="flex flex-wrap items-center">
-            <div className="flex-shrink-0 mr-5">
-              <Link href="/">
-                <p>
-                  <Image
-                    src="/logo.png"
-                    height="40"
-                    width="40"
-                    alt="BuyItNow"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </p>
-              </Link>
-            </div>
-            <Search />
+        <div className="flex flex-wrap items-center">
+          <div className="flex-shrink-0 mr-5">
+            <Link href="/">
+              <p>
+                <Image
+                  src="/logo.png"
+                  height="40"
+                  width="40"
+                  alt="BuyItNow"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </p>
+            </Link>
+          </div>
 
-            <div className="flex items-center space-x-2 ml-auto">
-              <Link
-                href="/cart"
-                className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
-              >
-                <i className="text-gray-400 w-5 fa fa-shopping-cart"></i>
+          <Search />
+
+          <div
+            className="flex items-center space-x-2 ml-auto"
+            style={{ height: "15vh" }}
+          >
+            <Link
+              href="/cart"
+              className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
+            >
+              <i className="text-gray-400 w-5 fa fa-shopping-cart"></i>
+              <Client>
                 <span className="inline ml-1">
                   Cart (<b>{cart.cartItems?.length}</b>)
                 </span>
-              </Link>
+              </Client>
+            </Link>
 
-              {!user ? (
+            {!user ? (
+              <Client>
                 <Link
                   href="/login"
                   className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
@@ -58,7 +64,9 @@ const Header = () => {
                   <i className="text-gray-400 w-5 fa fa-user"></i>
                   <span className="inline ml-1">Sign in</span>
                 </Link>
-              ) : (
+              </Client>
+            ) : (
+              <Client>
                 <Link href="/me">
                   <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
                     <Image
@@ -80,10 +88,11 @@ const Header = () => {
                     </div>
                   </div>
                 </Link>
-              )}
-            </div>
+              </Client>
+            )}
+          </div>
 
-            {/* <div className=" ml-2">
+          {/* <div className=" ml-2">
             <button
             type="button"
             className="bg-white p-3 inline-flex items-center rounded-md text-black hover:bg-gray-200 hover:text-gray-800 border border-transparent"
@@ -92,8 +101,7 @@ const Header = () => {
             <i className="fa fa-bars fa-lg"></i>
             </button>
           </div> */}
-          </div>
-        </Client>
+        </div>
       </div>
     </header>
   );
