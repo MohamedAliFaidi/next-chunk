@@ -18,11 +18,15 @@ import "react-toastify/dist/ReactToastify.css";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} >
+      <body className={inter.className}>
         <GlobalProvider>
           <Header />
-          {children}
-          <Footer />
+          {Header && (
+            <>
+              {children}
+              <Footer />
+            </>
+          )}
         </GlobalProvider>
         <ToastContainer position="bottom-right" />
       </body>

@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useCallback, useEffect,useContext } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
-
+import { useRouter } from "next/navigation";
 
 import { validatePasword, validateEmail } from "../../helper/validator";
 
 const Login = () => {
+  const router = useRouter();
   const { setUser } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -19,7 +20,6 @@ const Login = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-
     const data = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,13 +31,17 @@ const Login = () => {
       }
       return res;
     });
-    if(data.ok){
+    if (data.ok) {
       const user = await data.json();
+      console.log(user);
       setUser(user.data);
-      setPassword('')
+      localStorage.setItem("user", JSON.stringify(user.data));
+      setPassword("");
       toast.success("Login successful");
+      setTimeout(() => {
+        router.push("/me");
+      }, 1000);
     }
-
   };
 
   const verifyAndSetEmail = useCallback(

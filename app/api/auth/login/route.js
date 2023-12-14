@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import fs from "fs";
 
-export const runstime = "edge";
 
 export async function POST(req) {
   try {

@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 const Sidebar = () => {
+  const { setUser } = useContext(AuthContext);
   const router = useRouter();
   const logoutHandler = async () => {
     console.log("logout");
     await fetch("/api/auth/logout")
       .then((res) => {
         console.log("logout", res);
-
+        setUser(null);
         router.push("/login");
       })
       .catch((err) => console.log(err));

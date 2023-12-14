@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import dbConnet from "../../../../helper/db";
 import Address from "../../../../helper/adress.model";
 
-export const runstime = "edge";
+
 
 export async function GET(req) {
   try {
     dbConnet();
     const addresses = await Address.find({
-      userId: req.query.url,
+      userId: req.query?.url,
     });
     return NextResponse.json({ addresses });
   } catch (error) {

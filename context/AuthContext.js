@@ -1,13 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  let data;
+  if (typeof window !== "undefined") {
+    data = JSON.parse(localStorage.getItem("user"));
+  }
+  console;
+  const [user, setUser] = useState(data || null);
   const [error, setError] = useState(null);
 
   const router = useRouter();
@@ -27,12 +32,11 @@ export const AuthProvider = ({ children }) => {
       ).then(async (res) => {
         return await res.json();
       });
-      console.log(data);
       if (data.message) {
         setError(data.message);
       } else {
         if (data.data._id) {
-          setTimeout(() => toast.success("welcome " + data.data.name), 2000);
+          toast.success("welcome " + data.data.name);
         }
       }
     } catch (error) {
