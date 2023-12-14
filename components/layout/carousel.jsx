@@ -7,6 +7,7 @@ export  function Slides() {
 
     return(
     <Carousel
+    style={{ marginTop: "100px" }}
       className="rounded-xl overflow-hidden h-96 w-full relative my-10 shadow-2xl"
       navigation={({ setActiveIndex, activeIndex, length }) => (
         <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
