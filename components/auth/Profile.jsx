@@ -9,7 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Image from "next/image";
 import UserAddresses from "../user/Adresses";
 
-const Profile = () => {
+const Profile = ({addresses}) => {
   const { user } = useContext(AuthContext);
 
 
@@ -43,7 +43,7 @@ const Profile = () => {
         </button>
       </Link>
 
-      <UserAddresses  />
+      <UserAddresses addresses={addresses}  />
       <hr className="my-4" />
     </>
   );

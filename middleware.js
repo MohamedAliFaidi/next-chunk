@@ -32,7 +32,7 @@ export async function middleware(request) {
         },
         credentials: "include",
       })
-        .then(async (res) => console.log(await res.json()))
+        .then(async (res) => await res.json())
         .catch((err) => console.log(err));
       return NextResponse.redirect(process.env.NEXT_PUBLIC_BASE_URL + "/login");
     }
