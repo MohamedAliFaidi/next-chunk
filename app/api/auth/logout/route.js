@@ -8,6 +8,6 @@ export async function GET(req) {
 
   return NextResponse.json(
     { messsage: "logged out with success" },
-    { status: 300 }
+    { status: 200 }
   );
 }

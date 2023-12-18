@@ -11,7 +11,7 @@ export async function GET(request) {
     const x = jwt.verify(isauth, publicKey, { algorithms: ["RS256"] });
     const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
 
-    if (x && x.exp > currentTime) {
+    if (x && x.exp < currentTime) {
       cookies().delete("authorization"); // The token is expired
       return NextResponse.json({ message: "unauthorized" }, { status: 401 });
     } else {

@@ -15,13 +15,21 @@ async function checkAtuh() {
 export async function middleware(request) {
   if (request.nextUrl.pathname.startsWith("/me")) {
     const isAuth = await checkAtuh();
-    if (isAuth.message == "jwt expired" || "jwt malformed" ) {
-      fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/logout")
-        .then(async (res) => {
-          return await res.json();
-        })
-        .catch((err) => console.log(err));
+    if (
+      isAuth.message === "jwt expired" ||
+      isAuth.message === "jwt malformed" ||
+      isAuth.message === "unauthorized"
+    ) {
       return NextResponse.redirect(process.env.NEXT_PUBLIC_BASE_URL + "/login");
+    }
+  }
+  if (
+    request.nextUrl.pathname.startsWith("/login") ||
+    request.nextUrl.pathname.startsWith("/register")
+  ) {
+    const isAuth = await checkAtuh();
+    if ((isAuth.message ==="isAuth")) {
+      return NextResponse.redirect(process.env.NEXT_PUBLIC_BASE_URL + "/");
     }
   }
 }

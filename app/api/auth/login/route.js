@@ -25,7 +25,7 @@ export async function POST(req) {
         const privateKey = fs.readFileSync("./private_key.pem");
         const token = jwt.sign(
           {
-            exp: Math.floor(Date.now() / 1000) + 15, //60 * 60 * 24 * 7,
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
             data: { _id: user._id, email: user.email ,name:user.name},
           },
           privateKey,
