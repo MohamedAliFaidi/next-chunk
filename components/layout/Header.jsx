@@ -13,29 +13,31 @@ const Header = () => {
 
   const { cart } = useContext(CartContext);
 
-  useEffect(() => {
-    if (document.cookie.split("=")[1]) {
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/check?auth=${
-          document.cookie.split("=")[1]
-        }`
-      )
-        .then(async (res) => {
-          const data = await res.json();
-          if (data.message == ("jwt expired" || "jwt malformed" || "unauthorized") ) {
-            setUser(null);
-            localStorage.removeItem("user");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      if (localStorage.getItem("user")) {
-        localStorage.removeItem("user");
-      }
-    }
-  }, []); // const { data } = useSession();
+  // useEffect(() => {
+  //   if (document.cookie) {
+  //     console.log(document?.cookie?.split("=")[1])
+  //     fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/check?auth=${
+  //         document.cookie.split("=")[1]
+  //       }`
+  //     )
+  //       .then(async (res) => {
+  //         const data = await res.json();
+  //         console.log(data);
+  //         if (data.message == ("jwt expired" || "jwt malformed" || "unauthorized") ) {
+  //           setUser(null);
+  //           localStorage.removeItem("user");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     if (localStorage.getItem("user")) {
+  //       localStorage.removeItem("user");
+  //     }
+  //   }
+  // }, []); // const { data } = useSession();
 
   return (
     <header className="bg-white py-2 border-b" style={{ height: "15vh" }}>

@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -9,7 +10,19 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   let data;
   if (typeof window !== "undefined") {
+    console.log(document.cookie);
     data = JSON.parse(localStorage.getItem("user"));
+    fetch(
+      process.env.NEXT_PUBLIC_BASE_URL +
+        "/api/auth/check?auth=" +
+        getCookie("authorization")
+    ).then(async (res) => {
+      const data = await res.json();
+      if (data.message === "jwt expired" || data.message === "jwt malformed") {
+        localStorage.removeItem("user");
+        setUser(null);
+      }
+    });
   }
   console;
   const [user, setUser] = useState(data || null);
