@@ -1,8 +1,13 @@
+
+
 export const runtime = "edge";
 
 import { Slides } from "../components/layout/Carousel";
 import ProductCard from "../components/products/ProductCard";
 const getProducts = async () => {
+
+
+
   const data = await fetch(`${process.env.BACKEND_URL}/api/products`, {
     cache: "no-store",
     method: "GET",
@@ -18,6 +23,9 @@ const getProducts = async () => {
   return products;
 };
 async function page() {
+
+ 
+
 
   const data = await getProducts();
   return (

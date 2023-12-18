@@ -1,8 +1,10 @@
 import Sidebar from "../../components/layout/Sidebar";
 export default function UserLayout({ children }) {
+
+
   return (
     <>
-      <section className="py-5 sm:py-7 bg-orange-100">
+      <section className="py-5 sm:py-7 bg-orange-100 mt-20 sm:m-20 ">
         <div className="container max-w-screen-xl mx-auto px-4">
           <h1 className="text-bold text-2xl">User Dashboard</h1>
         </div>

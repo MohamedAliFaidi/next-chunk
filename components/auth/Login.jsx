@@ -38,9 +38,10 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(user.data));
       setPassword("");
       toast.success("Login successful");
-      setTimeout(() => {
         router.push("/me");
-      }, 1000);
+     
+    } else {
+      toast.error(data.statusText);
     }
   };
 

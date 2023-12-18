@@ -14,6 +14,7 @@ const Sidebar = () => {
       .then((res) => {
         console.log("logout", res);
         setUser(null);
+        localStorage.removeItem("user");
         router.push("/login");
       })
       .catch((err) => console.log(err));

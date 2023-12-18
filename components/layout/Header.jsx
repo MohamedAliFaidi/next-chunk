@@ -3,21 +3,39 @@
 import Link from "next/link";
 import Search from "./Search";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { CartContext } from "../../context/CartContext";
 import { AuthContext } from "../../context/AuthContext";
 import Client from "../ClientWrap";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const { cart } = useContext(CartContext);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setUser(data?.user);
-  //   }
-  // }, [data]);  // const { data } = useSession();
+  useEffect(() => {
+    if (document.cookie.split("=")[1]) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/check?auth=${
+          document.cookie.split("=")[1]
+        }`
+      )
+        .then(async (res) => {
+          const data = await res.json();
+          if (data.message == ("jwt expired" || "jwt malformed") ) {
+            setUser(null);
+            localStorage.removeItem("user");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      if (localStorage.getItem("user")) {
+        localStorage.removeItem("user");
+      }
+    }
+  }, []); // const { data } = useSession();
 
   return (
     <header className="bg-white py-2 border-b" style={{ height: "15vh" }}>
