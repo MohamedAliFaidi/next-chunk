@@ -15,7 +15,7 @@ const Header = () => {
 
 
   return (
-    <header className="bg-white py-2 border-b" style={{ height: "15vh" }}>
+    <header className="bg-white py-2 border-b" style={{ height: "15vh",marginBottom:"18px" }}>
       <div className="container max-w-screen-xl mx-auto px-4">
         <div className="flex flex-wrap items-center">
           <div className="flex-shrink-0 mr-5">

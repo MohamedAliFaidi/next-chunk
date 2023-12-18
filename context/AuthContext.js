@@ -10,7 +10,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   let data;
   if (typeof window !== "undefined") {
-    console.log(document.cookie);
     data = JSON.parse(localStorage.getItem("user"));
     fetch(
       process.env.NEXT_PUBLIC_BASE_URL +
