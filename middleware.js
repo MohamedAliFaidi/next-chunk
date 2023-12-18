@@ -13,7 +13,7 @@ async function checkAtuh() {
 }
 
 export async function middleware(request) {
-  if (request.nextUrl.pathname.startsWith("/me")) {
+  if (request.nextUrl.pathname.startsWith("/me") ||request.nextUrl.pathname.startsWith("/address")) {
     const isAuth = await checkAtuh();
     if (
       isAuth.message === "jwt expired" ||

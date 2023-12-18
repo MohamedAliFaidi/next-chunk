@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import fs from "fs";
 
-
 export async function POST(req) {
   try {
     const { email, password } = await req.json();
@@ -26,12 +25,13 @@ export async function POST(req) {
         const token = jwt.sign(
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-            data: { _id: user._id, email: user.email ,name:user.name},
+            data: { _id: user._id, email: user.email, name: user.name },
           },
           privateKey,
           { algorithm: "RS256" }
         );
         cookies().set("authorization", token);
+        cookies().set("email", user.email);
         return NextResponse.json(
           {
             message: "success",

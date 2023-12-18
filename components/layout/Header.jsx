@@ -22,7 +22,7 @@ const Header = () => {
       )
         .then(async (res) => {
           const data = await res.json();
-          if (data.message == ("jwt expired" || "jwt malformed") ) {
+          if (data.message == ("jwt expired" || "jwt malformed" || "unauthorized") ) {
             setUser(null);
             localStorage.removeItem("user");
           }

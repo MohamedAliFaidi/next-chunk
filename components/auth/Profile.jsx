@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 // import UserAddresses from "../user/UserAddresses";
 import Link from "next/link";
 import Client from "../ClientWrap";
@@ -11,6 +11,7 @@ import UserAddresses from "../user/Adresses";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
+
 
   return (
     <>
@@ -42,8 +43,8 @@ const Profile = () => {
         </button>
       </Link>
 
+      <UserAddresses  />
       <hr className="my-4" />
-      <UserAddresses />
     </>
   );
 };

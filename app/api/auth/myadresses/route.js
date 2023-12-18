@@ -6,10 +6,13 @@ import Address from "../../../../helper/adress.model";
 
 export async function GET(req) {
   try {
-    dbConnet();
+    await dbConnet();
+    console.log(req)
+
     const addresses = await Address.find({
-      userId: req.query?.url,
+      userId: req.query?.email,
     });
+    console.log(addresses)
     return NextResponse.json({ addresses });
   } catch (error) {
     console.log(error);
