@@ -7,7 +7,6 @@ export async function POST(req) {
   try {
     await dbConnet();
     const { id } = await req.json();
-    console.log(id)
     const addresse = await Address.findOne({
       _id: id,
     });

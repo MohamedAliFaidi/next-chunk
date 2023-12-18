@@ -16,6 +16,7 @@ const UpdateAddress = ({ id, address }) => {
     updateAddress,
     deleteAddress,
     clearErrors,
+    user,
   } = useContext(AuthContext);
 
   const countriesList = Object.values(countries);
@@ -41,10 +42,11 @@ const UpdateAddress = ({ id, address }) => {
     }
   }, [error, updated]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     const newAddress = {
+      userId: user?.email,
       street,
       city,
       state,
@@ -53,7 +55,10 @@ const UpdateAddress = ({ id, address }) => {
       country,
     };
 
-    updateAddress(id, newAddress);
+    const x = await updateAddress(id, newAddress);
+    console.log(x);
+    await Promise.resolve(x);
+    console.log(x)
   };
 
   const deleteHandler = () => {

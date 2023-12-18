@@ -31,19 +31,22 @@ export const AuthProvider = ({ children }) => {
 
   const updateAddress = async (id, address) => {
     try {
-      const { data } = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE8URL}/api/auth/address/updateaddress}`,
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/updateaddress`,
         {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(address),
         }
       );
+      console.log(data);
 
-      if (data?.address) {
+      if (data?.ok) {
         setUpdated(true);
         router.replace(`/address/${id}`);
+        return data;
       }
     } catch (error) {
       setError(error?.response?.data?.message);
@@ -119,6 +122,9 @@ export const AuthProvider = ({ children }) => {
         registerUser,
         clearErrors,
         addNewAddress,
+        updateAddress,
+        updated,
+        setUpdated,
       }}
     >
       {children}
