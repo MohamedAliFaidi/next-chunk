@@ -23,11 +23,32 @@ export const AuthProvider = ({ children }) => {
       }
     });
   }
-  console;
   const [user, setUser] = useState(data || null);
   const [error, setError] = useState(null);
+  const [updated, setUpdated] = useState(false);
 
   const router = useRouter();
+
+  const updateAddress = async (id, address) => {
+    try {
+      const { data } = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE8URL}/api/auth/address/updateaddress}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(address),
+        }
+      );
+
+      if (data?.address) {
+        setUpdated(true);
+        router.replace(`/address/${id}`);
+      }
+    } catch (error) {
+      setError(error?.response?.data?.message);
+    }
+  };
 
   const registerUser = async ({ name, email, password }) => {
     try {
@@ -42,7 +63,11 @@ export const AuthProvider = ({ children }) => {
           credentials: "include",
         }
       ).then(async (res) => {
-        return await res.json();
+        if (res.ok) {
+          toast.success(res.statusText);
+          router.push("/login");
+          return await res.json();
+        }
       });
       if (data.message) {
         setError(data.message);
