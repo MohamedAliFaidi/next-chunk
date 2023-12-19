@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(address,id),
+          body: JSON.stringify({address,id}),
         }
       );
       console.log(data);

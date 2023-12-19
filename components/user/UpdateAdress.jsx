@@ -22,7 +22,7 @@ const UpdateAddress = ({ id, address }) => {
 
   const countriesList = Object.values(countries);
 
-  const [street, setStreet] = useState(address?.street);
+  const [street, setStreet] = useState(address.street);
   const [city, setCity] = useState(address?.city);
   const [state, setState] = useState(address?.state);
   const [zipCode, setZipCode] = useState(address?.zipCode);
@@ -100,7 +100,7 @@ const UpdateAddress = ({ id, address }) => {
                         className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
                         type="text"
                         placeholder="Type your city"
-                        value={street}
+                        value={city}
                         onChange={(e) => setCity(e.target.value)}
                       />
                     </div>

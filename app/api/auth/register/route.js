@@ -21,7 +21,6 @@ export async function POST(req) {
         email,
         password,
       });
-      console.log(newUser);
       return NextResponse.json(
         {
           data: {
