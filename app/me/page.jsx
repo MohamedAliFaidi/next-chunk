@@ -6,7 +6,7 @@ import { cache } from "react";
 const getAddresses = cache(async () => {
   const unique = cookies().get("email")?.value;
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/myadresses`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/myadresses`,
     {
       method: "POST",
       cache: "no-store",
