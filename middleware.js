@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { deleteCookie } from "cookies-next";
 
 async function checkAtuh() {
   "use server";

@@ -18,7 +18,6 @@ const UpdateAddress = ({ id, address }) => {
     clearErrors,
     user,
   } = useContext(AuthContext);
-  console.log("address", id);
 
   const countriesList = Object.values(countries);
 
@@ -28,8 +27,10 @@ const UpdateAddress = ({ id, address }) => {
   const [zipCode, setZipCode] = useState(address?.zipCode);
   const [phoneNo, setPhonoNo] = useState(address?.phoneNo);
   const [country, setCountry] = useState(address?.country);
+  const [open, setOpen] = React.useState(false);
+ 
+  const handleOpen = () => setOpen(!open);
 
-  console.log("updated", updated);
 
   useEffect(() => {
     if (updated) {
@@ -57,9 +58,7 @@ const UpdateAddress = ({ id, address }) => {
     };
 
     const x = await updateAddress(id, newAddress);
-    console.log(x);
-    await Promise.resolve(x);
-    console.log(x)
+
   };
 
   const deleteHandler = () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteCookie, getCookie } from "cookies-next";
+import {  getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
