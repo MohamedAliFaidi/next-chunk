@@ -18,6 +18,7 @@ const UpdateAddress = ({ id, address }) => {
     clearErrors,
     user,
   } = useContext(AuthContext);
+  console.log("address", id);
 
   const countriesList = Object.values(countries);
 
