@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }) => {
           body: JSON.stringify({address,id}),
         }
       );
-      console.log(data);
 
       if (data?.ok) {
         setUpdated(true);

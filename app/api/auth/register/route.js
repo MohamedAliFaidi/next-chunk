@@ -5,7 +5,6 @@ import User from "../../../../helper/user.model";
 export async function POST(req) {
   try {
     const { name, email, password } = await req.json();
-
     await dbConnet();
     const user = await User.findOne({
       email,
