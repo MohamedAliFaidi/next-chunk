@@ -5,11 +5,14 @@ import Address from "../../../../helper/adress.model";
 export async function POST(req) {
   try {
     const body = await req.json();
-     dbConnet();
+    dbConnet();
     const address = await Address.create(body);
     return NextResponse.json({ address });
   } catch (error) {
-    console.log(error);
-    return NextResponse.error(error);
+    console.log(error.message);
+    return NextResponse.json(
+      { message: "all fields are required" },
+      { status: 403 }
+    );
   }
 }

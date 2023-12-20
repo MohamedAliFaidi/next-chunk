@@ -1,6 +1,6 @@
 "use client";
 
-import {  getCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({address,id}),
+          body: JSON.stringify({ address, id }),
         }
       );
 
@@ -48,7 +48,8 @@ export const AuthProvider = ({ children }) => {
         return data;
       }
     } catch (error) {
-      setError(error?.response?.data?.message);
+      toast.error(error?.message);
+      setError(error?.message);
     }
   };
 
@@ -80,7 +81,8 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      setError(error?.response?.data?.message);
+      setError(error?.message);
+      toast.error(error?.message);
     }
   };
 
@@ -94,6 +96,33 @@ export const AuthProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(address),
+        }
+      );
+      const res = await data.json();
+      if (data.ok) {
+        toast.success("address addedd successfully");
+        router.push("/me");
+      } else if (!data.ok) {
+        toast.error(res.message);
+        setError(res.message);
+
+      }
+    } catch (error) {
+      console.log(error, "here error");
+      setError(error.message);
+    }
+  };
+
+  const deleteaddress = async (id) => {
+    try {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/deleteaddress`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
         }
       );
 
@@ -124,6 +153,7 @@ export const AuthProvider = ({ children }) => {
         updateAddress,
         updated,
         setUpdated,
+        deleteaddress,
       }}
     >
       {children}
