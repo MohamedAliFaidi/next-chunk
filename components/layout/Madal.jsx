@@ -7,17 +7,18 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-export function DialogDefault({ isOpen, handleOpen, deleteaddress, id }) {
+export function DialogDefault({
+  isOpen,
+  handleOpen,
+  deleteAddress,
+  id,
+  values,
+}) {
   return (
     <>
       <Dialog open={isOpen} handler={handleOpen}>
         <DialogHeader>Its a simple dialog.</DialogHeader>
-        <DialogBody>
-          The key to more success is to have a lot of pillows. Put it this way,
-          it took me twenty five years to get these plants, twenty five years of
-          blood sweat and tears, and I&apos;m never giving up, I&apos;m just
-          getting started. I&apos;m up to something. Fan luv.
-        </DialogBody>
+        <DialogBody>Sure you want to delete this address?</DialogBody>
         <DialogFooter>
           <Button
             variant="text"
@@ -31,7 +32,10 @@ export function DialogDefault({ isOpen, handleOpen, deleteaddress, id }) {
             variant="gradient"
             color="green"
             onClick={async () => {
-              await deleteaddress(id);
+              await deleteAddress(id);
+              for (key in values) {
+                values[key]("");
+              }
               handleOpen();
             }}
           >

@@ -23,7 +23,7 @@ async function page({ params }) {
 
   return (
     <div>
-      <UpdateAdress address={data.addresse} id={data.addresse._id} />
+      <UpdateAdress address={data.addresse} id={data.addresse?._id} />
     </div>
   );
 }

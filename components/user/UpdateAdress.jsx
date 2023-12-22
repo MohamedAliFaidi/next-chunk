@@ -8,6 +8,7 @@ import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { DialogDefault } from "../layout/Madal";
+import { useRouter } from "next/navigation";
 
 const UpdateAddress = ({ id, address }) => {
   const {
@@ -18,12 +19,13 @@ const UpdateAddress = ({ id, address }) => {
     deleteAddress,
     clearErrors,
     user,
-    deleteaddress
+    deleteaddress,
   } = useContext(AuthContext);
 
   const countriesList = Object.values(countries);
+  const router = useRouter();
 
-  const [street, setStreet] = useState(address.street);
+  const [street, setStreet] = useState(address?.street);
   const [city, setCity] = useState(address?.city);
   const [state, setState] = useState(address?.state);
   const [zipCode, setZipCode] = useState(address?.zipCode);
@@ -31,9 +33,21 @@ const UpdateAddress = ({ id, address }) => {
   const [country, setCountry] = useState(address?.country);
   const [open, setOpen] = React.useState(false);
 
+  const values = {
+    setStreet,
+    setCity,
+    setState,
+    setZipCode,
+    setPhonoNo,
+    setCountry,
+  };
+
   const handleOpen = () => setOpen(!open);
 
   useEffect(() => {
+    if (!address || !id) {
+      router.push("/me");
+    }
     if (updated) {
       toast.success("Address Updated");
       setUpdated(false);
@@ -58,14 +72,18 @@ const UpdateAddress = ({ id, address }) => {
       country,
     };
 
-    const x = await updateAddress(id, newAddress);
+    await updateAddress(id, newAddress,values);
   };
-
-
 
   return (
     <>
-      <DialogDefault  isOpen={open} handleOpen={handleOpen} deleteaddress={deleteaddress} id={id}/>
+      <DialogDefault
+        isOpen={open}
+        handleOpen={handleOpen}
+        deleteAddress={deleteAddress}
+        id={id}
+        setters={values}
+      />
       <section className="py-10">
         <div className="container max-w-screen-xl mx-auto px-4">
           <div className="flex flex-col md:flex-row -mx-4">

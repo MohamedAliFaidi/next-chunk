@@ -9,9 +9,8 @@ import { AuthContext } from "../../context/AuthContext";
 import Image from "next/image";
 import UserAddresses from "../user/Adresses";
 
-const Profile = ({addresses}) => {
+const Profile = ({ addresses }) => {
   const { user } = useContext(AuthContext);
-
 
   return (
     <>
@@ -42,10 +41,10 @@ const Profile = ({addresses}) => {
           <i className="mr-1 fa fa-plus">+</i> Add new address
         </button>
         <hr className="my-4" />
-
       </Link>
-
-      <UserAddresses addresses={addresses}  />
+      <Client>
+        <UserAddresses addresses={addresses} />
+      </Client>
       <hr className="my-4" />
     </>
   );

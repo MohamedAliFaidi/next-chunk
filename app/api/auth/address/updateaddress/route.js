@@ -7,8 +7,10 @@ export async function PUT(req) {
     const { address, id } = await req.json();
     await dbConnet();
     const updated = await Address.findByIdAndUpdate(id, address);
-    const data = await updated.save();
-    return NextResponse.json({});
+    if (updated) {
+      const data = await updated.save();
+      return NextResponse.json({ data });
+    } else return NextResponse.json({ message: "address not found" });
   } catch (error) {
     console.log(error);
     return NextResponse.error(error);

@@ -2,8 +2,9 @@
 
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
+import { revalidateAdresses } from "../helper/revalidate";
 
 export const AuthContext = createContext();
 
@@ -29,8 +30,9 @@ export const AuthProvider = ({ children }) => {
 
   const router = useRouter();
 
-  const updateAddress = async (id, address) => {
+  const updateAddress = async (id, address, setter) => {
     try {
+      setUpdated(true);
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/updateaddress`,
         {
@@ -43,8 +45,8 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.ok) {
-        setUpdated(true);
-        router.replace(`/address/${id}`);
+        router.push(`http://localhost:3000/me`);
+        await revalidateAdresses();
         return data;
       }
     } catch (error) {
@@ -101,11 +103,11 @@ export const AuthProvider = ({ children }) => {
       const res = await data.json();
       if (data.ok) {
         toast.success("address addedd successfully");
+        await revalidateAdresses();
         router.push("/me");
       } else if (!data.ok) {
         toast.error(res.message);
         setError(res.message);
-
       }
     } catch (error) {
       console.log(error, "here error");
@@ -113,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const deleteaddress = async (id) => {
+  const deleteAddress = async (id) => {
     try {
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/deleteaddress`,
@@ -128,12 +130,15 @@ export const AuthProvider = ({ children }) => {
 
       if (data.ok) {
         toast.success("address addedd successfully");
+        await revalidateAdresses();
+
         router.push("/me");
       } else {
+        setError;
         toast.error(data.message);
       }
     } catch (error) {
-      setError(error?.response?.data?.message);
+      setError(error?.message);
     }
   };
 
@@ -146,14 +151,14 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         error,
+        updated,
         setUser,
         registerUser,
         clearErrors,
         addNewAddress,
         updateAddress,
-        updated,
+        deleteAddress,
         setUpdated,
-        deleteaddress,
       }}
     >
       {children}
