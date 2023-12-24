@@ -8,7 +8,7 @@ import {uploads} from "../../../../../helper/cloudinary"
 export async function POST (req) {
   try {
     const formData = await req.formData();
-    console.log(formData)
+    console.log(formData.get('image'))
 
  
 
