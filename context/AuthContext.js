@@ -27,8 +27,39 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(data || null);
   const [error, setError] = useState(null);
   const [updated, setUpdated] = useState(false);
+  const [loading, setLoading] = useState(null);
+
 
   const router = useRouter();
+
+  const updateProfile = async (formData) => {
+    try {
+      setLoading(true);
+
+      const data  =await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
+       
+        {
+          method:"PUT",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          body : formData
+        }
+      );
+
+      if (data?.ok) {
+        // loadUser();
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      setError(error?.message);
+    }
+  };
+
+
+
 
   const updateAddress = async (id, address, setter) => {
     try {
@@ -159,6 +190,7 @@ export const AuthProvider = ({ children }) => {
         updateAddress,
         deleteAddress,
         setUpdated,
+        updateProfile
       }}
     >
       {children}

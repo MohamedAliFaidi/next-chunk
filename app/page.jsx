@@ -1,12 +1,8 @@
-
-
 // export const runtime = "edge";
 
 // import { Slides } from "../components/layout/Carousel";
 // import ProductCard from "../components/products/ProductCard";
 // const getProducts = async () => {
-
-
 
 //   const data = await fetch(`${process.env.BACKEND_URL}/api/products`, {
 //     cache: "no-store",
@@ -23,9 +19,6 @@
 //   return products;
 // };
 // async function page() {
-
- 
-
 
 //   const data = await getProducts();
 //   return (
@@ -67,14 +60,14 @@
 
 // export default page;
 
-
 import ListProducts from "../components/products/ListProducts";
-export const runtime = "edge";
-
 
 import queryString from "query-string";
+import { revalidatePRoducts } from "../helper/revalidate";
 
 const getProducts = async (params) => {
+
+  revalidatePRoducts();
   const urlParams = {
     keyword: params.keyword,
     page: params.page,
@@ -84,15 +77,12 @@ const getProducts = async (params) => {
     ratings: params.ratings,
   };
   const query = queryString.stringify(urlParams);
-
   const data = await fetch(`${process.env.BACKEND_URL}/api/products?${query}`, {
-    cache: "no-store",
+    next: { tags: ["products"] },
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      
     },
-    
   });
   if (!data.ok) {
     throw new Error("Failed to fetch data");
@@ -104,7 +94,7 @@ export default async function Home({ searchParams }) {
   const products = await getProducts(searchParams);
   return (
     <>
-        <ListProducts products={products} />{" "}
+      <ListProducts products={products} />{" "}
     </>
   );
 }

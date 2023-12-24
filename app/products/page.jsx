@@ -1,5 +1,4 @@
 import ListProducts from "../../components/products/ListProducts";
-export const runtime = "edge";
 
 
 import queryString from "query-string";
@@ -16,8 +15,8 @@ const getProducts = async (params) => {
   const query = queryString.stringify(urlParams);
 
   const data = await fetch(`${process.env.BACKEND_URL}/api/products?${query}`, {
-    cache: "no-store",
     method: "GET",
+    next: { tags: ['products']},
     headers: {
       "Content-Type": "application/json",
       

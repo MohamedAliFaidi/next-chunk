@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { revalidatePRoducts } from "../../../../helper/revalidate";
 
 export async function POST(req) {
   try {
     const body = await req.json();
     const data = await fetch(`${process.env.BACKEND_URL}/api/products/create`, {
       method: "POST",
-      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
@@ -13,7 +13,7 @@ export async function POST(req) {
     });
 
     const product = await data.json();
-
+    await revalidatePRoducts();
     const response = NextResponse.json(product, { status: 201 });
     return response;
   } catch (error) {

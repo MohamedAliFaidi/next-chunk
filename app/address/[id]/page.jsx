@@ -1,13 +1,11 @@
 import React from "react";
 import UpdateAdress from "../../../components/user/UpdateAdress";
-import { cache } from "react";
 
-const getAddresse = cache(async (id) => {
+const getAddresse =async (id) => {
   const data = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/getone`,
     {
       method: "POST",
-      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
@@ -16,7 +14,7 @@ const getAddresse = cache(async (id) => {
   );
   const addresse = await data.json();
   return addresse;
-}, 3600);
+}
 
 async function page({ params }) {
   const data = await getAddresse(params.id);

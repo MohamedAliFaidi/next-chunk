@@ -1,13 +1,10 @@
-const revalidate = 3600; // revalidate the data at most every hour
 import { NextResponse } from "next/server";
-import { cache } from "react";
 
-const getPoduct = cache(async (id) => {
+const getPoduct = async (id) => {
   const data = await fetch(
     `${process.env.BACKEND_URL}/api/products/getproduct/${id}`,
     {
       method: "GET",
-      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
@@ -15,7 +12,7 @@ const getPoduct = cache(async (id) => {
   );
   const products = await data.json();
   return products;
-}, revalidate);
+}
 
 export async function POST(req) {
 
