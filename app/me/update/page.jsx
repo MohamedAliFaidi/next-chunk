@@ -1,6 +1,9 @@
 import UpdateProfile from "../../../components/auth/UpdateProfile"
 
-function page() {
+
+
+export function page() {
+
   return (
     <div><UpdateProfile /></div>
   )

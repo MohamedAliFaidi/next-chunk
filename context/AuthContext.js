@@ -34,16 +34,14 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (formData) => {
     try {
+      console.log(formData)
       setLoading(true);
 
       const data  =await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
-       
         {
-          method:"PUT",
-          headers: {
-            "Content-Type": "multipart/form-data"
-          },
+          method:"POST",
+         
           body : formData
         }
       );

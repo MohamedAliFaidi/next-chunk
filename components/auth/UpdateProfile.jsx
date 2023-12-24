@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 const UpdateProfile = () => {
   const { user, error, loading, updateProfile, clearErrors } =
     useContext(AuthContext);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/images/default.png");
+    
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [avatar, setAvatar] = useState("");
+    const [avatarPreview, setAvatarPreview] = useState("/default_avatar.png");
 
   useEffect(() => {
     if (user) {
@@ -29,10 +29,12 @@ const UpdateProfile = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.set("name", name);
-    formData.set("email", email);
-    formData.set("image", avatar);
+    console.log(typeof formData,"before");
 
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("image", avatar);
+  
     await updateProfile(formData);
   };
 
