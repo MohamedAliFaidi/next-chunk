@@ -1,23 +1,36 @@
 import { NextResponse } from "next/server";
 import User from "../../../../../helper/user.model";
-import fs from "fs";
-import { NextRequest } from "next/server";
-import { uploads } from "../../../../../helper/cloudinary";
-import parser from "../../../../../helper/multer";
-import nextConnect from "next-connect";
-import formidable from 'formidable';
-import { IncomingForm } from 'formidable';
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
-
-
-
-
-
-export async function POST(req,res) {
-  const formData = await req.formData()
+export async function POST(req, res) {
+  const formData = await req.formData();
   const file = formData.get("image");
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
-  console.log(buffer)
-    return NextResponse.json('done')
+  await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({}, function (error, result) {
+        if (error) {
+          console.log(error);
+          reject(error);
+          return;
+        }
+        resolve(result);
+        console.log(result);
+      })
+      .end(buffer);
+  });
+
+  return NextResponse.json(
+    { message: "succeed", data: buffer },
+    {
+      status: 200,
+    }
+  );
 }

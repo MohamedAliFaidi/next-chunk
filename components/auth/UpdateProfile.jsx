@@ -3,7 +3,6 @@
 import AuthContext from "../../context/AuthContext";
 import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { uploadAvatar } from "../../helper/actions";
 
 const UpdateProfile = () => {
   const { user, error, loading, updateProfile, clearErrors } =
