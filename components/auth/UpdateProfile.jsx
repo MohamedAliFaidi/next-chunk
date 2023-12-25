@@ -3,10 +3,13 @@
 import AuthContext from "../../context/AuthContext";
 import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
+import { uploadAvatar } from "../../helper/actions";
 
 const UpdateProfile = () => {
   const { user, error, loading, updateProfile, clearErrors } =
     useContext(AuthContext);
+
+
     
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -29,11 +32,13 @@ const UpdateProfile = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    console.log(typeof formData,"before");
 
     formData.append("name", name);
     formData.append("email", email);
     formData.append("image", avatar);
+   
+
+    // const x =  await uploadAvatar(formData);
   
     await updateProfile(formData);
   };

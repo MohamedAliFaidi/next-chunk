@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (formData) => {
     try {
-      console.log(formData);
       setLoading(true);
 
       const data = await fetch(
