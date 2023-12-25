@@ -29,20 +29,19 @@ export const AuthProvider = ({ children }) => {
   const [updated, setUpdated] = useState(false);
   const [loading, setLoading] = useState(null);
 
-
   const router = useRouter();
 
   const updateProfile = async (formData) => {
     try {
-      console.log(formData)
+      console.log(formData);
       setLoading(true);
 
-      const data  =await fetch(
+      const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
         {
-          method:"POST",
-         
-          body : formData
+          method: "POST",
+
+          body: formData,
         }
       );
 
@@ -55,9 +54,6 @@ export const AuthProvider = ({ children }) => {
       setError(error?.message);
     }
   };
-
-
-
 
   const updateAddress = async (id, address, setter) => {
     try {
@@ -74,8 +70,9 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.ok) {
-        router.push(`http://localhost:3000/me`);
+        toast.success("Address Updated");
         await revalidateAdresses();
+        window.location.href = "http://localhost:3000/me";
         return data;
       }
     } catch (error) {
@@ -188,7 +185,7 @@ export const AuthProvider = ({ children }) => {
         updateAddress,
         deleteAddress,
         setUpdated,
-        updateProfile
+        updateProfile,
       }}
     >
       {children}

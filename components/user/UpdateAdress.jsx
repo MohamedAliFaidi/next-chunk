@@ -8,7 +8,8 @@ import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { DialogDefault } from "../layout/Madal";
-import { useRouter } from "next/navigation";
+import { useRouter  } from "next/navigation";
+import { revalidateAdress } from "../../helper/revalidate";
 
 const UpdateAddress = ({ id, address }) => {
   const {
@@ -21,6 +22,7 @@ const UpdateAddress = ({ id, address }) => {
     user,
     deleteaddress,
   } = useContext(AuthContext);
+  console.log(address)
 
   const countriesList = Object.values(countries);
   const router = useRouter();
@@ -45,11 +47,8 @@ const UpdateAddress = ({ id, address }) => {
   const handleOpen = () => setOpen(!open);
 
   useEffect(() => {
-    if (!address || !id) {
-      router.push("/me");
-    }
+    revalidateAdress()
     if (updated) {
-      toast.success("Address Updated");
       setUpdated(false);
     }
 
@@ -57,7 +56,8 @@ const UpdateAddress = ({ id, address }) => {
       toast.error(error);
       clearErrors();
     }
-  }, [error, updated]);
+
+  }, [error, updated, city, street, state, zipCode, phoneNo, country]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ const UpdateAddress = ({ id, address }) => {
       country,
     };
 
-    await updateAddress(id, newAddress,values);
+    await updateAddress(id, newAddress, values);
   };
 
   return (

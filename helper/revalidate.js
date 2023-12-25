@@ -14,3 +14,11 @@ export async function revalidatePRoducts() {
 
   // ...
 }
+
+
+
+export async function revalidateAdress() {
+  revalidateTag("address");
+
+  // ...
+}

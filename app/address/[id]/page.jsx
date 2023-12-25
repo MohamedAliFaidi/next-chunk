@@ -5,6 +5,7 @@ const getAddresse =async (id) => {
   const data = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/address/getone`,
     {
+      next : {tags: ["address"]},
       method: "POST",
       headers: {
         "Content-Type": "application/json",
