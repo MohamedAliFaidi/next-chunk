@@ -19,7 +19,6 @@ const ProductItem = ({ product }) => {
       seller: product.seller,
     });
   };
-console.log( product?.images[0].url)
   return (
     <article className="border border-gray-200 overflow-hidden bg-white shadow-sm rounded mb-5">
       <div className="flex flex-col md:flex-row">

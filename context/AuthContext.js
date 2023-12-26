@@ -46,8 +46,7 @@ export const AuthProvider = ({ children }) => {
 
       if (data?.ok) {
         // loadUser(); 
-        const x = await data.json()
-        console.log(x)
+      
         setLoading(false);
       }
     } catch (error) {
