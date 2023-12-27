@@ -31,6 +31,25 @@ export const AuthProvider = ({ children }) => {
 
   const router = useRouter();
 
+  const updatePassword = async ({ currentPassword, newPassword }) => {
+    try {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/updatepassword`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ currentPassword, newPassword }),
+        }
+      );
+
+      if (data?.ok) {
+        router.replace("/me");
+      }
+    } catch (error) {
+      console.log(error.response);
+      setError(error?.message);
+    }
+  };
+
   const updateProfile = async (formData) => {
     try {
       setLoading(true);
@@ -43,7 +62,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       if (data?.ok) {
-        console.log(data)
+        console.log(data);
         // loadUser();
         const response = await data.json();
         localStorage.setItem("user", JSON.stringify(response.user));
@@ -189,6 +208,7 @@ export const AuthProvider = ({ children }) => {
         deleteAddress,
         setUpdated,
         updateProfile,
+        updatePassword
       }}
     >
       {children}
