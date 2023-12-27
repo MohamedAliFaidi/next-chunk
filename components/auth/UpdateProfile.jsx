@@ -8,12 +8,10 @@ const UpdateProfile = () => {
   const { user, error, loading, updateProfile, clearErrors } =
     useContext(AuthContext);
 
-
-    
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [avatar, setAvatar] = useState("");
-    const [avatarPreview, setAvatarPreview] = useState("/default_avatar.png");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState("/default_avatar.png");
 
   useEffect(() => {
     if (user) {
@@ -27,18 +25,17 @@ const UpdateProfile = () => {
     }
   }, [error, user]);
 
-  const submitHandler =async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
 
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("image", avatar);
-   
+    formData.set("name", name);
+    formData.set("email", email);
+    formData.set("image", avatar);
 
     // const x =  await uploadAvatar(formData);
-  
+
     await updateProfile(formData);
   };
 
@@ -92,7 +89,11 @@ const UpdateProfile = () => {
             <label className="block mb-1"> Avatar </label>
             <div className="mb-4 flex flex-col md:flex-row">
               <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer md:w-1/5 lg:w-1/4">
-                <img className="w-14 h-14 rounded-full" src={avatarPreview}  alt="new avtar"/>
+                <img
+                  className="w-14 h-14 rounded-full"
+                  src={avatarPreview}
+                  alt="new avtar"
+                />
               </div>
               <div className="md:w-2/3 lg:w-80">
                 <input

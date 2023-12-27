@@ -10,13 +10,10 @@ cloudinary.config({
   secure: true,
 });
 
-export async function POST(req, res) {
+export async function POST(req) {
   try {
+    await dbConnet();
     const formData = await req.formData();
-    const updated = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-    };
     if (typeof formData.get("image") === "object") {
       const file = formData.get("image");
       const arrayBuffer = await file.arrayBuffer();
@@ -30,25 +27,44 @@ export async function POST(req, res) {
               return;
             }
             resolve(result);
-            updated.avatar = {
-              url: result.secure_url,
-              public_id: result.public_id,
-            };
-            console.log(result, "updated");
+
+            User.findOneAndUpdate(
+              {
+                email: formData.get("email"),
+              },
+              {
+                avatar: { url: result.secure_url, public_id: result.public_id },
+              }
+            )
+              .then((res) => console.log(res))
+              .catch((err) => {
+                return NextResponse.json(
+                  { message: "Error", err },
+                  {
+                    status: 500,
+                  }
+                );
+              });
           })
           .end(buffer);
       });
     }
-    await dbConnet();
     const user = await User.findOneAndUpdate(
       {
         email: formData.get("email"),
       },
-      updated
+      {
+        name: formData.get("name"),
+        email: formData.get("email"),
+      }
     );
+    const validated = await User.findOne({
+      email: user.email,
+    });
+
 
     return NextResponse.json(
-      { message: "succeed", user },
+      { message: "succeed", validated },
       {
         status: 200,
       }

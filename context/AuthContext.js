@@ -2,16 +2,23 @@
 
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { revalidateAdresses } from "../helper/revalidate";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }
+  }, []);
+
   let data;
   if (typeof window !== "undefined") {
     data = JSON.parse(localStorage.getItem("user"));
+    if (!data) window.location.href = "http://localhost:3000";
     fetch(
       process.env.NEXT_PUBLIC_BASE_URL +
         "/api/auth/check?auth=" +
@@ -53,6 +60,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (formData) => {
     try {
       setLoading(true);
+      console.log(formData);
 
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
@@ -61,14 +69,24 @@ export const AuthProvider = ({ children }) => {
           body: formData,
         }
       );
+      setLoading(false);
       if (data?.ok) {
         console.log(data);
         // loadUser();
-        const response = await data.json();
-        localStorage.setItem("user", JSON.stringify(response.user));
-        setUser(response.user);
-        setLoading(false);
-        window.location.href = "http://localhost:3000/me";
+        await data
+          .json()
+          .then((res) => {
+            if (res.validated) {
+              localStorage.removeItem("user");
+               
+              localStorage.setItem("user", JSON.stringify(res.validated));
+              setUser(res.validated);
+            }
+          })
+          .catch((err) => {
+            setLoading(false);
+            setError(error?.message);
+          });
       }
     } catch (error) {
       setLoading(false);
@@ -208,7 +226,7 @@ export const AuthProvider = ({ children }) => {
         deleteAddress,
         setUpdated,
         updateProfile,
-        updatePassword
+        updatePassword,
       }}
     >
       {children}
