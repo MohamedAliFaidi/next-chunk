@@ -39,16 +39,18 @@ export const AuthProvider = ({ children }) => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
         {
           method: "POST",
-
           body: formData,
         }
       );
-
       if (data?.ok) {
         // loadUser();
         const response = await data.json();
-        setUser(response.user)
+        localStorage.setItem("user", JSON.stringify(response.user));
+
+        setUser(response.user);
+
         setLoading(false);
+        router.push("/me");
       }
     } catch (error) {
       setLoading(false);
@@ -179,6 +181,7 @@ export const AuthProvider = ({ children }) => {
         user,
         error,
         updated,
+        loading,
         setUser,
         registerUser,
         clearErrors,
