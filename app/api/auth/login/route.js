@@ -40,6 +40,7 @@ export async function POST(req) {
               _id: user._id,
               name: user.name,
               email: user.email,
+              avatar: user.avatar,
               role: user.role,
               createdAt: user.createdAt,
             },

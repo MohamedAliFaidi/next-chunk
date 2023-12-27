@@ -45,8 +45,9 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.ok) {
-        // loadUser(); 
-      
+        // loadUser();
+        const response = await data.json();
+        setUser(response.user)
         setLoading(false);
       }
     } catch (error) {

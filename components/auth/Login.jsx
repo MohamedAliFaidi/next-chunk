@@ -33,7 +33,6 @@ const Login = () => {
     });
     if (data.ok) {
       const user = await data.json();
-      console.log(user);
       setUser(user.data);
       localStorage.setItem("user", JSON.stringify(user.data));
       setPassword("");

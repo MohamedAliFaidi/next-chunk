@@ -22,7 +22,7 @@ const Header = () => {
             <Link href="/">
               <p>
                 <Image
-                  src="/logo.png"
+                  src={"/logo.png"}
                   height="40"
                   width="40"
                   alt="BuyItNow"

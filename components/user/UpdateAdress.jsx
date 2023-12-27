@@ -8,7 +8,6 @@ import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { DialogDefault } from "../layout/Madal";
-import { useRouter  } from "next/navigation";
 import { revalidateAdress } from "../../helper/revalidate";
 
 const UpdateAddress = ({ id, address }) => {
@@ -22,10 +21,8 @@ const UpdateAddress = ({ id, address }) => {
     user,
     deleteaddress,
   } = useContext(AuthContext);
-  console.log(address)
 
   const countriesList = Object.values(countries);
-  const router = useRouter();
 
   const [street, setStreet] = useState(address?.street);
   const [city, setCity] = useState(address?.city);
