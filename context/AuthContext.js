@@ -9,28 +9,27 @@ import { revalidateAdresses } from "../helper/revalidate";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  let data;
   useEffect(() => {
-    if (localStorage.getItem("user")) {
-      setUser(JSON.parse(localStorage.getItem("user")));
+    if (typeof window !== "undefined") {
+      data = JSON.parse(localStorage.getItem("user"));
+      fetch(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/auth/check?auth=" +
+          getCookie("authorization")
+      ).then(async (res) => {
+        const data = await res.json();
+        if (
+          data.message === "jwt expired" ||
+          data.message === "jwt malformed"
+        ) {
+          localStorage.removeItem("user");
+          setUser(null);
+        } else setUser(JSON.parse(localStorage.getItem("user")));
+      });
     }
   }, []);
 
-  let data;
-  if (typeof window !== "undefined") {
-    data = JSON.parse(localStorage.getItem("user"));
-    if (!data) window.location.href = "http://localhost:3000";
-    fetch(
-      process.env.NEXT_PUBLIC_BASE_URL +
-        "/api/auth/check?auth=" +
-        getCookie("authorization")
-    ).then(async (res) => {
-      const data = await res.json();
-      if (data.message === "jwt expired" || data.message === "jwt malformed") {
-        localStorage.removeItem("user");
-        setUser(null);
-      }
-    });
-  }
   const [user, setUser] = useState(data || null);
   const [error, setError] = useState(null);
   const [updated, setUpdated] = useState(false);
@@ -78,7 +77,7 @@ export const AuthProvider = ({ children }) => {
           .then((res) => {
             if (res.validated) {
               localStorage.removeItem("user");
-               
+
               localStorage.setItem("user", JSON.stringify(res.validated));
               setUser(res.validated);
             }
