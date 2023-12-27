@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import User from "../../../../../helper/user.model";
 import { v2 as cloudinary } from "cloudinary";
+import dbConnet from "../../../../../helper/db";
+
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -36,7 +39,7 @@ export async function POST(req, res) {
         .end(buffer);
     });
   }
-
+  await dbConnet()
   const user = await User.findOneAndUpdate(
     {
       email: formData.get("email"),

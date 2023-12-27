@@ -43,14 +43,13 @@ export const AuthProvider = ({ children }) => {
         }
       );
       if (data?.ok) {
+        console.log(data)
         // loadUser();
         const response = await data.json();
         localStorage.setItem("user", JSON.stringify(response.user));
-
         setUser(response.user);
-
         setLoading(false);
-        router.push("/me");
+        window.location.href = "http://localhost:3000/me";
       }
     } catch (error) {
       setLoading(false);
