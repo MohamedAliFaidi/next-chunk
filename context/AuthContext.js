@@ -39,16 +39,18 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = async ({ currentPassword, newPassword }) => {
     try {
+      console.log(user)
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/updatepassword`,
         {
           method: "PUT",
-          body: JSON.stringify({ currentPassword, newPassword }),
+          body: JSON.stringify({ currentPassword, newPassword,id:user._id }),
         }
       );
 
       if (data?.ok) {
-        router.replace("/me");
+        // router.replace("/me");
+        console.log('ok')
       }
     } catch (error) {
       console.log(error.response);
