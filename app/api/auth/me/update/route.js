@@ -13,6 +13,10 @@ cloudinary.config({
 export async function POST(req) {
   try {
     await dbConnet();
+    const searchParams = req.nextUrl.searchParams;
+    console.log(searchParams);
+    const id = searchParams.get("id");
+    console.log(id);
     const formData = await req.formData();
     if (typeof formData.get("image") === "object") {
       const file = formData.get("image");
@@ -28,16 +32,9 @@ export async function POST(req) {
             }
             resolve(result);
 
-            User.findOneAndUpdate(
-              {
-                email: formData.get("email"),
-              },
-              {
-                avatar: { url: result.secure_url, public_id: result.public_id },
-              }
-            )
-              .then((res) => console.log(res))
-              .catch((err) => {
+            User.findByIdAndUpdate(id, {
+              avatar: { url: result.secure_url, public_id: result.public_id },
+            }).catch((err) => {
                 return NextResponse.json(
                   { message: "Error", err },
                   {
@@ -49,19 +46,12 @@ export async function POST(req) {
           .end(buffer);
       });
     }
-    const user = await User.findOneAndUpdate(
-      {
-        email: formData.get("email"),
-      },
-      {
-        name: formData.get("name"),
-        email: formData.get("email"),
-      }
-    );
-    const validated = await User.findOne({
-      email: user.email,
+    const user = await User.findByIdAndUpdate(id, {
+      name: formData.get("name"),
+      email: formData.get("email"),
     });
-
+    const validated = await User.findById(id);
+    console.log('validated  ',validated)
 
     return NextResponse.json(
       { message: "succeed", validated },

@@ -6,14 +6,12 @@ import bcrypt from "bcrypt"
 export async function PUT(req) {
   try {
    await dbConnect()
-   
    const { currentPassword, newPassword , id } = await req.json()
    const user = await User.findById(id).select("+password");
    const isPasswordMatched = await bcrypt.compare(
     currentPassword,
     user.password
   );   
-    console.log(isPasswordMatched)
     if(!isPasswordMatched){
       return NextResponse.json({ message: "Old password is incorrect" }, { status: 400 });
 

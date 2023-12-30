@@ -9,7 +9,7 @@ import { revalidateAdresses } from "../helper/revalidate";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  let data;
+    let data;
   useEffect(() => {
     if (typeof window !== "undefined") {
       data = JSON.parse(localStorage.getItem("user"));
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
       console.log(formData);
 
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update?id=${user._id}`,
         {
           method: "POST",
           body: formData,
