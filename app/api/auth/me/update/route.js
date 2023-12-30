@@ -10,60 +10,63 @@ cloudinary.config({
   secure: true,
 });
 
+const convertBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
 export async function POST(req) {
   try {
     await dbConnet();
-    const searchParams = req.nextUrl.searchParams;
-    console.log(searchParams);
-    const id = searchParams.get("id");
-    console.log(id);
+
     const formData = await req.formData();
-    if (typeof formData.get("image") === "object") {
-      const file = formData.get("image");
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = new Uint8Array(arrayBuffer);
+    const file = await formData.get("image");
+
+    if (file) {
       await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: "avatars" }, function (error, result) {
+        cloudinary.uploader.upload(
+          file,
+          { folder: "avatars", resource_type: "auto" },
+          async function (error, result) {
             if (error) {
-              console.log(error);
+              console.error("Upload error:", error);
               reject(error);
               return;
             }
             resolve(result);
-
-            User.findByIdAndUpdate(id, {
+            console.log(result);
+            await User.findByIdAndUpdate(formData.get("id"), {
               avatar: { url: result.secure_url, public_id: result.public_id },
-            }).catch((err) => {
-                return NextResponse.json(
-                  { message: "Error", err },
-                  {
-                    status: 500,
-                  }
-                );
-              });
-          })
-          .end(buffer);
+            });
+          }
+        );
       });
     }
-    const user = await User.findByIdAndUpdate(id, {
+    await User.findByIdAndUpdate(formData.get("id"), {
       name: formData.get("name"),
       email: formData.get("email"),
     });
-    const validated = await User.findById(id);
-    console.log('validated  ',validated)
-
+    const validated = await User.findById(formData.get("id"));
     return NextResponse.json(
       { message: "succeed", validated },
       {
         status: 200,
       }
     );
-  } catch (err) {
-    console.log(err);
-
+  } catch (error) {
+    console.log(error);
     return NextResponse.json(
-      { message: "Error", err },
+      { message: error },
       {
         status: 500,
       }

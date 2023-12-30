@@ -7,7 +7,20 @@ import { toast } from "react-toastify";
 const UpdateProfile = () => {
   const { user, error, loading, updateProfile, clearErrors } =
     useContext(AuthContext);
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
 
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -32,7 +45,11 @@ const UpdateProfile = () => {
 
     formData.set("name", name);
     formData.set("email", email);
-    formData.set("image", avatar);
+    console.log(avatar);
+    if (avatar) {
+      formData.set("image", await convertBase64(avatar));
+    }
+    formData.set("id", user._id);
 
     // const x =  await uploadAvatar(formData);
 
@@ -40,16 +57,18 @@ const UpdateProfile = () => {
   };
 
   const onChange = (e) => {
-    const reader = new FileReader();
+    if (e.target?.files[0]) {
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatarPreview(reader.result);
-      }
-    };
-
-    setAvatar(e.target.files[0]);
-    reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setAvatarPreview(reader.result);
+        }
+      };
+  
+      setAvatar(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   return (

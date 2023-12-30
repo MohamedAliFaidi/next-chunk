@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
       console.log(formData);
 
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update?id=${user._id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me/update`,
         {
           method: "POST",
           body: formData,
