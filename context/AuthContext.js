@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = async ({ currentPassword, newPassword }) => {
     try {
-      console.log(user);
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/updatepassword`,
         {
@@ -47,11 +46,14 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.ok) {
-        // router.replace("/me");
-        console.log("ok");
+        router.replace("/me");
+        toast.success("password updated succefully");
+      } else if (!data?.ok) {
+        const res = await data.json();
+        setError(res.message);
       }
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       setError(error?.message);
     }
   };

@@ -40,15 +40,12 @@ const Login = () => {
     [setPasswordError, setPassword]
   );
 
+ 
   useEffect(() => {
     if (emailError || passwordError) setIsDisabled(true);
     else setIsDisabled(false);
   }, [passwordError, emailError]);
 
-  const submit_handler = async (e) => {
-    e.preventDefault();
-    await loginUser(email,password,setPassword);
-  };
 
   return (
     <div
