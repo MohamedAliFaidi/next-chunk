@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
       if (data?.ok) {
         toast.success("Address Updated");
         await revalidateAdresses();
-        window.location.href = "http://localhost:3000/me";
+        router.push("/me")
         return data;
       }
     } catch (error) {
