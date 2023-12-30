@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { headers } from 'next/headers'
+
 
 export async function GET(request) {
   try {

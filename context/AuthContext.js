@@ -1,6 +1,5 @@
 "use client";
 
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -9,14 +8,13 @@ import { revalidateAdresses } from "../helper/revalidate";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    let data;
+  let data;
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const auth = document.cookie.split("=")[1]?.split(";")[0];
       data = JSON.parse(localStorage.getItem("user"));
       fetch(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          "/api/auth/check?auth=" +
-          getCookie("authorization")
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/check?auth=" + auth
       ).then(async (res) => {
         const data = await res.json();
         if (
@@ -39,18 +37,18 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = async ({ currentPassword, newPassword }) => {
     try {
-      console.log(user)
+      console.log(user);
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/updatepassword`,
         {
           method: "PUT",
-          body: JSON.stringify({ currentPassword, newPassword,id:user._id }),
+          body: JSON.stringify({ currentPassword, newPassword, id: user._id }),
         }
       );
 
       if (data?.ok) {
         // router.replace("/me");
-        console.log('ok')
+        console.log("ok");
       }
     } catch (error) {
       console.log(error.response);
@@ -207,6 +205,29 @@ export const AuthProvider = ({ children }) => {
       setError(error?.message);
     }
   };
+  const loginUser = async (email, password, setPassword) => {
+    const data = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    }).then((res) => {
+      if (res?.error) {
+        toast.error(res?.error);
+      }
+      return res;
+    });
+    if (data.ok) {
+      const user = await data.json();
+      setUser(user.data);
+      localStorage.setItem("user", JSON.stringify(user.data));
+      setPassword("");
+      toast.success("Login successful");
+      router.push("/me");
+    } else {
+      toast.error(data.statusText);
+    }
+  };
 
   const clearErrors = () => {
     setError(null);
@@ -228,6 +249,7 @@ export const AuthProvider = ({ children }) => {
         setUpdated,
         updateProfile,
         updatePassword,
+        loginUser,
       }}
     >
       {children}

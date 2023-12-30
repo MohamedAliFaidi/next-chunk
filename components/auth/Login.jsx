@@ -2,47 +2,19 @@
 
 import Link from "next/link";
 import React, { useState, useCallback, useEffect, useContext } from "react";
-import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
-import { useRouter } from "next/navigation";
 
 import { validatePasword, validateEmail } from "../../helper/validator";
 
 const Login = () => {
-  const router = useRouter();
-  const { setUser } = useContext(AuthContext);
-
+  const { loginUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const loginUser = async (e) => {
-    e.preventDefault();
-    const data = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    }).then((res) => {
-      if (res?.error) {
-        toast.error(res?.error);
-      }
-      return res;
-    });
-    if (data.ok) {
-      const user = await data.json();
-      setUser(user.data);
-      localStorage.setItem("user", JSON.stringify(user.data));
-      setPassword("");
-      toast.success("Login successful");
-      window.location.href = "/";
-     
-    } else {
-      toast.error(data.statusText);
-    }
-  };
+
 
   const verifyAndSetEmail = useCallback(
     (email) => {
@@ -73,12 +45,17 @@ const Login = () => {
     else setIsDisabled(false);
   }, [passwordError, emailError]);
 
+  const submit_handler = async (e) => {
+    e.preventDefault();
+    await loginUser(email,password,setPassword);
+  };
+
   return (
     <div
       style={{ maxWidth: "480px" }}
       className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
     >
-      <form onSubmit={loginUser}>
+      <form onSubmit={submit_handler}>
         <h2 className="mb-5 text-2xl font-semibold">Login</h2>
 
         <div className="mb-4">
