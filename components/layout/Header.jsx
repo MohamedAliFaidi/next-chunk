@@ -13,9 +13,12 @@ const Header = () => {
 
   const { cart } = useContext(CartContext);
 
-
+  
   return (
-    <header className="bg-white py-2 border-b" style={{ height: "15vh",marginBottom:"18px" }}>
+    <header
+      className="bg-white py-2 border-b"
+      style={{ height: "15vh", marginBottom: "18px" }}
+    >
       <div className="container max-w-screen-xl mx-auto px-4">
         <div className="flex flex-wrap items-center">
           <div className="flex-shrink-0 mr-5">
@@ -61,13 +64,14 @@ const Header = () => {
                 </Link>
               </Client>
             ) : (
-              <Client>
                 <Link href="/me">
                   <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
                     <Image
                       className="w-10 h-10 rounded-full"
                       src={
-                        user?.avatar ? user?.avatar?.url : "/default_avatar.png"
+                        !user?.avatar?.url 
+                          ? "/default_avatar.png"
+                          : user?.avatar?.url
                       }
                       alt="avatar"
                       width="40"
@@ -83,7 +87,6 @@ const Header = () => {
                     </div>
                   </div>
                 </Link>
-              </Client>
             )}
           </div>
 
