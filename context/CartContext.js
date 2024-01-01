@@ -20,6 +20,20 @@ export const CartProvider = ({ children }) => {
           : []
       );
     };
+
+    const saveOnCheckout = ({ amount, tax, totalAmount }) => {
+      const checkoutInfo = {
+        amount,
+        tax,
+        totalAmount,
+      };
+  
+      const newCart = { ...cart, checkoutInfo };
+  
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCartToState();
+      router.push("/shipping");
+    };
   
     const addItemToCart = async ({
       product,
@@ -70,6 +84,7 @@ export const CartProvider = ({ children }) => {
         cart,
         addItemToCart,
         deleteItemFromCart,
+        saveOnCheckout
       }}
     >
       {children}
