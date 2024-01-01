@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import BreadCrumbs from "../layout/BreadCrumbs";
 
 const Shipping = ({ addresses }) => {
-  console.log(addresses);
   const { cart } = useContext(CartContext);
 
   const [shippingInfo, setShippinInfo] = useState("");
