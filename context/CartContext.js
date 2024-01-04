@@ -9,17 +9,20 @@ export const CartProvider = ({ children }) => {
 
     const router = useRouter();
   
-    useEffect(() => {
-      setCartToState();
-    }, []);
-  
+    
     const setCartToState = () => {
       setCart(
         localStorage.getItem("cart")
-          ? JSON.parse(localStorage.getItem("cart"))
-          : []
-      );
-    };
+        ? JSON.parse(localStorage.getItem("cart"))
+        : []
+        );
+      };
+      useEffect(() => {
+        
+        if(typeof window != "undefined")
+      setCart(JSON.parse(localStorage.getItem('cart')))
+ 
+      }, []);
 
     const saveOnCheckout = ({ amount, tax, totalAmount }) => {
       const checkoutInfo = {

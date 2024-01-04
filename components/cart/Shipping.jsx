@@ -1,13 +1,28 @@
 "use client";
 
 import { CartContext } from "../../context/CartContext";
+import { AuthContext } from "../../context/AuthContext";
+
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import BreadCrumbs from "../layout/BreadCrumbs";
+import { DialogWithForm } from "./NotSignedInfo";
 
 const Shipping = ({ addresses }) => {
   const { cart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+  const [notSigned, setNotSigned] = useState({});
+  const [isAuth, setIsAuth] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen((cur) => !cur);
+
+  useEffect(() => {
+    console.log(user);
+    if(user === null) {
+      handleOpen();
+    }
+  }, []);
 
   const [shippingInfo, setShippinInfo] = useState("");
 
@@ -15,11 +30,19 @@ const Shipping = ({ addresses }) => {
     setShippinInfo(address._id);
   };
 
+  console.log(shippingInfo ,cart)
+
   const checkoutHandler = async () => {
     if (!shippingInfo) {
       return toast.error("Please select your shipping address");
     } else {
-      // move to stripe checkoutpage
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ shippingInfo, cart }),
+      });
     }
   };
 
@@ -31,6 +54,9 @@ const Shipping = ({ addresses }) => {
 
   return (
     <div className="pt-24">
+      {!isAuth && (
+        <DialogWithForm open={open}/>
+      )}
       <BreadCrumbs breadCrumbs={breadCrumbs} />
       <section className="py-10 bg-gray-50">
         <div className="container max-w-screen-xl mx-auto px-4">
@@ -118,29 +144,37 @@ const Shipping = ({ addresses }) => {
 
                 <h2 className="text-lg font-semibold mb-3">Items in cart</h2>
 
-                {cart?.cartItems?.map((item ,i) => (
-                  <figure key={i} className="flex items-center mb-4 leading-5">
-                    <div>
-                      <div className="block relative w-20 h-20 rounded p-1 border border-gray-200">
-                        <img
-                          width="50"
-                          height="50"
-                          src={item.image}
-                          alt="Title"
-                        />
-                        <span className="absolute -top-2 -right-2 w-6 h-6 text-sm text-center flex items-center justify-center text-white bg-gray-400 rounded-full">
-                          {item.quantity}
-                        </span>
-                      </div>
-                    </div>
-                    <figcaption className="ml-3">
-                      <p>{item.name.substring(0, 50)}</p>
-                      <p className="mt-1 text-gray-400">
-                        Total: ${item.quantity * item.price}
-                      </p>
-                    </figcaption>
-                  </figure>
-                ))}
+                {cart?.cartItems?.map(
+                  (item, i) => (
+                    console.log(item),
+                    (
+                      <figure
+                        key={i}
+                        className="flex items-center mb-4 leading-5"
+                      >
+                        <div>
+                          <div className="block relative w-20 h-20 rounded p-1 border border-gray-200">
+                            <img
+                              width="50"
+                              height="50"
+                              src={item.image}
+                              alt="Title"
+                            />
+                            <span className="absolute -top-2 -right-2 w-6 h-6 text-sm text-center flex items-center justify-center text-white bg-gray-400 rounded-full">
+                              {item.quantity}
+                            </span>
+                          </div>
+                        </div>
+                        <figcaption className="ml-3">
+                          <p>{item.name.substring(0, 50)}</p>
+                          <p className="mt-1 text-gray-400">
+                            Total: ${item.quantity * item.price}
+                          </p>
+                        </figcaption>
+                      </figure>
+                    )
+                  )
+                )}
               </article>
             </aside>
           </div>
