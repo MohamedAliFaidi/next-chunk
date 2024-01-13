@@ -222,10 +222,10 @@ export const AuthProvider = ({ children }) => {
     if (data.ok) {
       const user = await data.json();
       setUser(user.data);
+      router.push("/me");
       localStorage.setItem("user", JSON.stringify(user.data));
       setPassword("");
       toast.success("Login successful");
-      router.push("/me");
     } else {
       toast.error(data.statusText);
     }

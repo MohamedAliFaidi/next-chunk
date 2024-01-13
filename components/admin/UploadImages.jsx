@@ -5,8 +5,7 @@ import Image from "next/image";
 import React, { useContext, useState } from "react";
 
 const UploadImages = ({ product }) => {
-//   const { uploadProductImages, error, loading, clearErrors } =
-//     useContext(ProductContext);
+  const {   loading, clearErrors,newProduct } =useContext(ProductContext);
 console.log(product)
 
   const [images, setImages] = useState([]);
@@ -17,32 +16,44 @@ console.log(product)
 
     setImages([]);
     setImagesPreview([])
-    console.log(files)
+
+
+    let images = [];
 
     files.forEach((file) => {
       const reader = new FileReader();
 
       reader.onload = () => {
-        console.log(reader.result)
+        console.log(reader.result , "here")
+
+        setImages((oldArray) => [...oldArray, reader.result]);
+
         if (reader.readyState === 2) {
+        images.push(reader.result);
+        setImages(images);
           setImagesPreview((oldArray) => [...oldArray, reader.result]);
         }
       };
 
-      setImages((oldArray) => [...oldArray, file]);
       reader.readAsDataURL(file);
     });
   };
-
-  const submitHandler = (e) => {
+  
+  const submitHandler =async  (e) => {
     e.preventDefault();
-    console.log(images);
-
+    console.log(images,"images")
+    
     const formData = new FormData();
 
     images.forEach((image) => {
       formData.append("image", image);
     });
+
+    formData.append("product", JSON.stringify(product));
+
+
+
+    await newProduct( formData);
 
     // uploadProductImages(formData, id);
   };

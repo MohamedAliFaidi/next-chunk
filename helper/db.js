@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const dbConnect = async () => {
+const  dbConnect = async () => {
   try {
     console.log("Connecting to database...");
     const conn = await mongoose.connect(
@@ -14,4 +14,4 @@ const dbConnect = async () => {
   }
 };
 
-module.exports = dbConnect;
+export default dbConnect

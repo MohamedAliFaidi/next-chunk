@@ -7,22 +7,12 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import BreadCrumbs from "../layout/BreadCrumbs";
-import { DialogWithForm } from "./NotSignedInfo";
 
 const Shipping = ({ addresses }) => {
   const { cart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
-  const [notSigned, setNotSigned] = useState({});
-  const [isAuth, setIsAuth] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
 
-  useEffect(() => {
-    console.log(user);
-    if(user === null) {
-      handleOpen();
-    }
-  }, []);
+
 
   const [shippingInfo, setShippinInfo] = useState("");
 
@@ -30,7 +20,6 @@ const Shipping = ({ addresses }) => {
     setShippinInfo(address._id);
   };
 
-  console.log(shippingInfo ,cart)
 
   const checkoutHandler = async () => {
     if (!shippingInfo) {
@@ -41,7 +30,7 @@ const Shipping = ({ addresses }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ shippingInfo, cart }),
+        body: JSON.stringify({ shippingInfo, cart, user : user._id }),
       });
     }
   };
@@ -54,9 +43,7 @@ const Shipping = ({ addresses }) => {
 
   return (
     <div className="pt-24">
-      {!isAuth && (
-        <DialogWithForm open={open}/>
-      )}
+    
       <BreadCrumbs breadCrumbs={breadCrumbs} />
       <section className="py-10 bg-gray-50">
         <div className="container max-w-screen-xl mx-auto px-4">

@@ -13,20 +13,22 @@ export const ProductProvider = ({ children }) => {
 
   const router = useRouter();
 
-//   const newProduct = async (product) => {
-//     try {
-//       const { data } = await axios.post(
-//         `${process.env.API_URL}/api/admin/products`,
-//         product
-//       );
-
-//       if (data) {
-//         router.replace("/admin/products");
-//       }
-//     } catch (error) {
-//       setError(error?.response?.data?.message);
-//     }
-//   };
+  const newProduct = async (formData) => {
+    try {
+      console.log(formData)
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/create`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const response = await data.json();
+      console.log(response)
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const clearErrors = () => {
     setError(null);
@@ -39,7 +41,7 @@ export const ProductProvider = ({ children }) => {
         loading,
         updated,
         setUpdated,
-        // newProduct,
+        newProduct,
 
         clearErrors,
       }}

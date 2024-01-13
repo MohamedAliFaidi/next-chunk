@@ -6,6 +6,20 @@ const orderSchema = mongoose.Schema({
     required: true,
     ref: "Address",
   },
+  checkoutInfo: {
+    amount: {
+      type: Number,
+      required: true,
+    },
+    tax: {
+      type: String,
+      required: true,
+    },
+    totalAmount: {
+      type: String,
+      required: true,
+    },
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

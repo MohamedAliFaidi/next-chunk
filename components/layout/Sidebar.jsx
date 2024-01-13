@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 
 const Sidebar = () => {
+  console.log(AuthContext)
   const { setUser } = useContext(AuthContext);
   const router = useRouter();
   const logoutHandler = async () => {

@@ -10,20 +10,7 @@ cloudinary.config({
   secure: true,
 });
 
-const convertBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
 
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-};
 
 export async function POST(req) {
   try {
@@ -44,8 +31,7 @@ export async function POST(req) {
               return;
             }
             resolve(result);
-            console.log(result);
-            await User.findByIdAndUpdate(formData.get("id"), {
+              await User.findByIdAndUpdate(formData.get("id"), {
               avatar: { url: result.secure_url, public_id: result.public_id },
             });
           }
