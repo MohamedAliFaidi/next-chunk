@@ -6,7 +6,6 @@ import React, { useContext, useState } from "react";
 
 const UploadImages = ({ product }) => {
   const {   loading, clearErrors,newProduct } =useContext(ProductContext);
-console.log(product)
 
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -24,7 +23,6 @@ console.log(product)
       const reader = new FileReader();
 
       reader.onload = () => {
-        console.log(reader.result , "here")
 
         setImages((oldArray) => [...oldArray, reader.result]);
 
@@ -41,7 +39,6 @@ console.log(product)
   
   const submitHandler =async  (e) => {
     e.preventDefault();
-    console.log(images,"images")
     
     const formData = new FormData();
 
@@ -53,9 +50,8 @@ console.log(product)
 
 
 
-    await newProduct( formData);
+    await newProduct(formData);
 
-    // uploadProductImages(formData, id);
   };
 
   return (
@@ -92,7 +88,7 @@ console.log(product)
           className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
         //   disabled={loading ? true : false}
         >upload
-          {/* {loading ? "Uploading..." : "Upload"} */}
+          {loading ? "Uploading..." : "Upload"}
         </button>
       </form>
 

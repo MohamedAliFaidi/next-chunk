@@ -15,7 +15,6 @@ export async function POST(req) {
     const formData = await req.formData();
     const product = await JSON.parse(formData.get("product"));
     const newProduct = await Product.create(product);
-    console.log(newProduct);
 
     let images = [];
     for (let pair of formData.entries()) {
@@ -32,6 +31,7 @@ export async function POST(req) {
             async function (error, result) {
               if (error) {
                 console.error("Upload error:", error);
+                const del = await Product.findByIdAndDelete(newProduct._id)
                 reject(error);
                 return;
               }
@@ -44,7 +44,6 @@ export async function POST(req) {
                   },
                 },
               });
-              console.log(data)
             }
           );
         });
@@ -52,23 +51,8 @@ export async function POST(req) {
     }
 
     const myProduct = await Product.findById(newProduct._id)
-
-    console.log(myProduct )
-
-    // const file = await formData.get("image");
-    // console.log(file)
-    // const body = await req.json();
-    // const data = await fetch(`${process.env.BACKEND_URL}/api/products/create`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-
-    // const product = await data.json();
-    // await revalidatePRoducts();
-    const response = NextResponse.json({ status: 201 });
+    await revalidatePRoducts()
+    const response = NextResponse.json({ status: 201,data : myProduct });
     return response;
   } catch (error) {
     console.log(error.message);

@@ -25,7 +25,7 @@ const Shipping = ({ addresses }) => {
     if (!shippingInfo) {
       return toast.error("Please select your shipping address");
     } else {
-      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/order", {
+      await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +133,6 @@ const Shipping = ({ addresses }) => {
 
                 {cart?.cartItems?.map(
                   (item, i) => (
-                    console.log(item),
                     (
                       <figure
                         key={i}

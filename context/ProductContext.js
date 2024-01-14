@@ -3,6 +3,7 @@
 // import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useState } from "react";
+import { toast } from "react-toastify";
 
 const ProductContext = createContext();
 
@@ -15,7 +16,7 @@ export const ProductProvider = ({ children }) => {
 
   const newProduct = async (formData) => {
     try {
-      console.log(formData)
+      setLoading(true)
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/create`,
         {
@@ -23,9 +24,13 @@ export const ProductProvider = ({ children }) => {
           body: formData,
         }
       );
-      const response = await data.json();
-      console.log(response)
+      if(data.ok){
+        setLoading(false)
+        toast.success('New product added succefuly')
+      }
     } catch (error) {
+      setLoading(false)
+      toast.error(error.message)
       setError(error.message);
     }
   };

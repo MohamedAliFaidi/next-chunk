@@ -5,7 +5,6 @@ import React, { useContext, useState } from "react";
 import UploadImages from "./UploadImages";
 
 const NewProduct = () => {
-  //   const {  } = useContext(ProductContext);
 
   const [product, setProduct] = useState({
     name: "",
@@ -13,7 +12,7 @@ const NewProduct = () => {
     seller: "",
     price: "",
     stock: "",
-    category: "",
+    category: "Electronics",
   });
 
   const { name, description, seller, price, stock, category } = product;
@@ -31,11 +30,7 @@ const NewProduct = () => {
     "Sports",
   ];
 
-  const submitHandler = (e) => {
-    e.preventDefault();
 
-    // newProduct(product);
-  };
 
   return (
     <section className="container max-w-3xl p-6 mx-auto">
