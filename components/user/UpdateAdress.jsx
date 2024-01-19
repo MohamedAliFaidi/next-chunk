@@ -4,7 +4,6 @@ import React, { useState, useContext, useEffect } from "react";
 
 import Sidebar from "../layout/Sidebar";
 
-import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { DialogDefault } from "../layout/Madal";
@@ -19,17 +18,14 @@ const UpdateAddress = ({ id, address }) => {
     deleteAddress,
     clearErrors,
     user,
-    deleteaddress,
   } = useContext(AuthContext);
 
-  const countriesList = Object.values(countries);
 
   const [street, setStreet] = useState(address?.street);
   const [city, setCity] = useState(address?.city);
   const [state, setState] = useState(address?.state);
   const [zipCode, setZipCode] = useState(address?.zipCode);
   const [phoneNo, setPhonoNo] = useState(address?.phoneNo);
-  const [country, setCountry] = useState(address?.country);
   const [open, setOpen] = React.useState(false);
 
   const values = {
@@ -38,7 +34,6 @@ const UpdateAddress = ({ id, address }) => {
     setState,
     setZipCode,
     setPhonoNo,
-    setCountry,
   };
 
   const handleOpen = () => setOpen(!open);
@@ -54,7 +49,7 @@ const UpdateAddress = ({ id, address }) => {
       clearErrors();
     }
 
-  }, [error, updated, city, street, state, zipCode, phoneNo, country]);
+  }, [error, updated, city, street, state, zipCode, phoneNo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -66,7 +61,6 @@ const UpdateAddress = ({ id, address }) => {
       state,
       zipCode,
       phoneNo,
-      country,
     };
 
     await updateAddress(id, newAddress, values);
@@ -154,21 +148,7 @@ const UpdateAddress = ({ id, address }) => {
                     </div>
                   </div>
 
-                  <div className="mb-4 md:col-span-2">
-                    <label className="block mb-1"> Country </label>
-                    <select
-                      className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                    >
-                      {countriesList.map((country) => (
-                        <option key={country.name} value={country.name}>
-                          {country.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
+              
                   <button
                     style={{ width: "100%" }}
                     type="submit"

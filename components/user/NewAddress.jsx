@@ -2,21 +2,18 @@
 
 import { useState, useContext } from "react";
 
-import { countries } from "countries-list";
 import AuthContext from "../../context/AuthContext";
 
 
 const NewAddress = () => {
   const { error, addNewAddress, clearErrors,user } = useContext(AuthContext);
 
-  const countriesList = Object.values(countries);
 
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [phoneNo, setPhonoNo] = useState("");
-  const [country, setCountry] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -28,7 +25,6 @@ const NewAddress = () => {
       state,
       zipCode,
       phoneNo,
-      country,
     };
 
     addNewAddress(newAddress);
@@ -102,20 +98,7 @@ const NewAddress = () => {
             </div>
           </div>
 
-          <div className="mb-4 md:col-span-2">
-            <label className="block mb-1"> Country </label>
-            <select
-              className="appearance-none border border-gray-200 bg-gray-100 rounded-md py-2 px-3 hover:border-gray-400 focus:outline-none focus:border-gray-400 w-full"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            >
-              {countriesList.map((country) => (
-                <option key={country.name} value={country.name}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          
 
           <button
             type="submit"
