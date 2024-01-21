@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   let data;
   useEffect(() => {
     if (typeof window !== "undefined") {
+      if(window.location.pathname !=="/login" && window.location.pathname !=="/register"){
       const auth = document.cookie.split("=")[1]?.split(";")[0];
       data = JSON.parse(localStorage.getItem("user"));
       fetch(
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         } else setUser(JSON.parse(localStorage.getItem("user")));
       });
-    }
+    }}
   }, []);
 
   const [user, setUser] = useState(data || null);

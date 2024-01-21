@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useState, useContext, useEffect, useCallback } from "react";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { Spinner } from "@material-tailwind/react";
+import { useSearchParams } from "next/navigation";
+
+function CustomSpinner() {
+  return <Spinner className="h-16 w-16 text-gray-900/50" />;
+}
 
 import {
   validatePasword,
@@ -13,6 +19,7 @@ import {
 
 const Register = () => {
   const { error, registerUser, clearErrors } = useContext(AuthContext);
+  const search  = useSearchParams()
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,6 +28,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [code ,setCode] =useState('false');
 
   useEffect(() => {
     if (error) {
@@ -29,10 +37,12 @@ const Register = () => {
     }
   }, [error]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-
-    registerUser({ name, email, password });
+    const check = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/isemail?email=' + email)
+    const isEmail = await check.json()
+    console.log(isEmail)
+    // registerUser({ name, email, password });
   };
 
   const verifyAndSetUsername = useCallback(
@@ -76,12 +86,24 @@ const Register = () => {
     else setIsDisabled(false);
   }, [passwordError, emailError, usernameError]);
 
+  useEffect(() => {
+    if(search.get('code')){ 
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/isemail/confirm?code=${search.get('code')}`).then(async (res)=>{
+      const data = await res.json()
+      console.log(data)})}
+}, [])
+
   return (
     <div
       style={{ maxWidth: "480px" }}
       className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
     >
       <form onSubmit={submitHandler}>
+        <div style={{display:"flex",justifyContent:"center"}}>
+      {
+        code.length>0 && <CustomSpinner/>
+      }
+      </div>
         <h2 className="mb-5 text-2xl font-semibold">Register Account</h2>
 
         <div className="mb-4">
