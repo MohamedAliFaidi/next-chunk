@@ -187,9 +187,10 @@ export const AuthProvider = ({children}) => {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email, password}),
             credentials: "include",
-        }).then((res) => {
-            if (res?.error) {
-                toast.error(res?.error);
+        }).then(async(res) => {
+            const data = await res.json()
+            if (!res?.ok) {
+                toast.error(data.message);
             }
             return res;
         });
@@ -200,8 +201,6 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem("user", JSON.stringify(user.data));
             setPassword("");
             toast.success("Login successful");
-        } else {
-            toast.error(data.statusText);
         }
     };
 
