@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+  import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 async function checkAtuh() {
@@ -8,7 +8,7 @@ async function checkAtuh() {
       .get("authorization")
       ?.value.trim()}`
   );
-  const res = await data.json();
+  const res = await data?.json();
 
   return res;
 }

@@ -1,20 +1,31 @@
 import { NextResponse } from "next/server";
+import User from "../../../../helper/user.model"
 
 
 
-export async function GET(req,{ params }) {
+export async function POST(req) {
   try {
 
+    const {name,email,password  } = await req.json()
+    const user  = await  User.findOne({email:email})
+    if(user){
+      return NextResponse.json( {message : "user already exist"}, { status: 400 });
 
-    const email =req.nextUrl.searchParams.get('email');
-
-    const sendEmail = await fetch(process.env.BACKEND_URL+"/api/isemail/"+email)
+    }
+    console.log(email,password)
+    const sendEmail = await fetch(process.env.BACKEND_URL+"/api/isemail",{
+      method:"POST",
+      headers :{
+        "Content-type":"application/json"
+      },
+      body : JSON.stringify({name,email,password})
+    })
     const data = await sendEmail.json()
-  
-       NextResponse.redirect( new URL('/register?code='+data.message.code, req.url))
-  
+    console.log(data)
 
-    return NextResponse.json({success:data.message.code})
+
+
+    return NextResponse.json({success:data})
     
     
  

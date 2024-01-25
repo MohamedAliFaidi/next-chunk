@@ -7,7 +7,8 @@ export async function GET(req, ) {
     await dbConnect();
     const code = req.nextUrl.searchParams.get('code');
     console.log(code)
-    const isemail = await Prom.find({code:code})
+    const isemail = await Prom.findOne({code:code}).select('+password')
+    console.log(isemail)
     
     return NextResponse.json({ data: isemail });
   } catch (error) {
