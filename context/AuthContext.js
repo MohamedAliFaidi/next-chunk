@@ -195,6 +195,7 @@ export const AuthProvider = ({children}) => {
                 else toast.error("Email not Found");
               return res
             }
+            else {
 
                 const user = await data.json();
                 setUser(user.data);
@@ -202,7 +203,7 @@ export const AuthProvider = ({children}) => {
                 localStorage.setItem("user", JSON.stringify(user.data));
                 setPassword("");
                 toast.success("Login successful");
-
+            }
 
             return res;
         });
