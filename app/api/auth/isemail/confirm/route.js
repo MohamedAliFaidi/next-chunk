@@ -5,6 +5,7 @@ import dbConnect from "../../../../../helper/db"
 export async function GET(req, ) {
   try {
     await dbConnect();
+    console.log(req.url)
     const code = req.nextUrl.searchParams.get('code');
     console.log(code)
     const isemail = await Prom.findOne({code:code}).select('+password')

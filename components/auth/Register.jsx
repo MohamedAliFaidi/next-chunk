@@ -28,6 +28,7 @@ const Register = () => {
             fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/isemail/confirm?code=" + code).then(async (res) => {
 
                 const data = await res.json()
+                console.log(data)
                 if(data.data){
 
                 const user = data.data

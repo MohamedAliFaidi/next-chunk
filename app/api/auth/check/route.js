@@ -10,8 +10,7 @@ export async function GET(request) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const isauth = searchParams.get("auth");
-    const publicKey = fs.readFileSync("./public_key.pem");
-    const x = jwt.verify(isauth, publicKey, { algorithms: ["RS256"] });
+    const x = jwt.verify(isauth,"secret");
     const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
 
     if (!isauth || (x && x.exp < currentTime)) {

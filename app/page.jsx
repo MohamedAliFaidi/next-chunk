@@ -85,6 +85,7 @@ const getProducts = async (params) => {
     },
   });
   if (!data.ok) {
+    console.log(data)
     throw new Error("Failed to fetch data");
   }
   const products = await data.json();

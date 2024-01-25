@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import User from "../../../../helper/user.model"
+import dbConnect from "../../../../helper/db";
 
 
 
@@ -7,6 +8,7 @@ export async function POST(req) {
   try {
 
     const {name,email,password  } = await req.json()
+    await dbConnect()
     const user  = await  User.findOne({email:email})
     if(user){
       return NextResponse.json( {message : "user already exist"}, { status: 400 });
