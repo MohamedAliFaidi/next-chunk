@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+export const runtime = "edge"
+
 import Prom from "../../../../../helper/promise.model"
 import dbConnect from "../../../../../helper/db"
 

@@ -7,9 +7,7 @@ import {toast} from "react-toastify";
 import {Spinner} from "@material-tailwind/react";
 import {useRouter, useSearchParams} from "next/navigation";
 
-function CustomSpinner() {
-    return <Spinner className="h-16 w-16 text-gray-900/50"/>;
-}
+
 
 import {
     validatePasword,
@@ -21,7 +19,9 @@ const Register = () => {
     const {error, registerUser, clearErrors} = useContext(AuthContext);
     const router = useRouter()
     const searchParams = useSearchParams()
+
     useEffect(() => {
+
         if (searchParams.get('code')) {
             const code = searchParams.get('code')
             console.log(code)
@@ -138,11 +138,7 @@ const Register = () => {
             className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
         >
             <form onSubmit={submitHandler}>
-                <div style={{display: "flex", justifyContent: "center"}}>
-                    {
-                        searchParams.get('code') && <CustomSpinner/>
-                    }
-                </div>
+
                 <h2 className="mb-5 text-2xl font-semibold">Register Account</h2>
 
                 <div className="mb-4">
