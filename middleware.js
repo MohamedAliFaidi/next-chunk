@@ -40,8 +40,8 @@ export async function middleware(request) {
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register")
   ) {
-    const isAuth = await checkAtuh();
-    if (isAuth.message === "isAuth") {
+    if (cookies()
+        .has("authorization")) {
       return NextResponse.redirect(process.env.NEXT_PUBLIC_BASE_URL + "/");
     }
   }
