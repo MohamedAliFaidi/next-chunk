@@ -192,16 +192,17 @@ export const AuthProvider = ({children}) => {
             if (!res?.ok) {
                 if (data.message == "invalid password")
                     toast.error("invalid password");
-                else if (res.ok) {
-                    const user = await data.json();
-                    setUser(user.data);
-                    router.push("/me");
-                    localStorage.setItem("user", JSON.stringify(user.data));
-                    setPassword("");
-                    toast.success("Login successful");
-                } else toast.error("Email not Found");
 
             }
+            else if (res.ok) {
+                const user = await data.json();
+                setUser(user.data);
+                router.push("/me");
+                localStorage.setItem("user", JSON.stringify(user.data));
+                setPassword("");
+                toast.success("Login successful");
+            } else toast.error("Email not Found");
+
             return res;
         });
 
