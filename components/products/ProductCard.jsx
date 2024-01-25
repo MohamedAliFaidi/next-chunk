@@ -29,7 +29,8 @@ const ProductCard = ({ product }) => {
 
   return (
     <>
-   <Card className="mt-6 w-full sm:w-96">
+   <Card       onClick={() => router.push(`/product/${product._id}`)}
+               className="mt-6 w-full sm:w-96">
   <CardHeader color="blue-gray" className="relative h-56">
     <img
       alt="card-image"
@@ -39,7 +40,6 @@ const ProductCard = ({ product }) => {
   </CardHeader>
   <CardBody>
     <Typography
-      onClick={() => router.push(`/product/${product._id}`)}
       variant="h5"
       color="blue-gray"
       className="mb-2"
