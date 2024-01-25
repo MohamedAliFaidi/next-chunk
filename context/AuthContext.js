@@ -190,7 +190,10 @@ export const AuthProvider = ({children}) => {
         }).then(async(res) => {
             const data = await res.json()
             if (!res?.ok) {
-                toast.error(data.message);
+                if(data.message =="invalid password")
+                toast.error("invalid password");
+                else                 toast.error("Email not Found");
+
             }
             return res;
         });
