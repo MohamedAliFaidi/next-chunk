@@ -187,24 +187,24 @@ export const AuthProvider = ({children}) => {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email, password}),
             credentials: "include",
-        }).then(async(res) => {
+        }).then(async (res) => {
             const data = await res.json()
             if (!res?.ok) {
-                if(data.message =="invalid password")
-                toast.error("invalid password");
-                else                 toast.error("Email not Found");
+                if (data.message == "invalid password")
+                    toast.error("invalid password");
+                else if (res.ok) {
+                    const user = await data.json();
+                    setUser(user.data);
+                    router.push("/me");
+                    localStorage.setItem("user", JSON.stringify(user.data));
+                    setPassword("");
+                    toast.success("Login successful");
+                } else toast.error("Email not Found");
 
             }
             return res;
         });
-        if (data.ok) {
-            const user = await data.json();
-            setUser(user.data);
-            router.push("/me");
-            localStorage.setItem("user", JSON.stringify(user.data));
-            setPassword("");
-            toast.success("Login successful");
-        }
+
     };
 
     const clearErrors = () => {
