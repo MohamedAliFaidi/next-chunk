@@ -188,22 +188,19 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({email, password}),
             credentials: "include",
         }).then(async (res) => {
-            const data = await res.json()
             if (!res?.ok) {
+                const data = await res.json()
                 if (data.message == "invalid password")
                     toast.error("invalid password");
                 else toast.error("Email not Found");
               return res
             }
-            else {
-
                 const user = await data.json();
                 setUser(user.data);
                 router.push("/me");
                 localStorage.setItem("user", JSON.stringify(user.data));
                 setPassword("");
                 toast.success("Login successful");
-            }
 
             return res;
         });
